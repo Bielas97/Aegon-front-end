@@ -18,6 +18,7 @@
 # dependencies
 /.pnp
 node_modules
+config
 .pnp.js
 
 # testing
