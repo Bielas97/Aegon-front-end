@@ -1,31 +1,31 @@
 import * as actions from './actionTypes';
 import axios from '../../axios-api';
 
-export const fetchStart = () => {
+const fetchStart = () => {
     return {
-        type: actions.FETCH_TABLES_START
+        type: actions.FETCH_CUSTOMERS_START
     }
 };
 
-export const fetchSuccess = tables => {
+const fetchSuccess = customers => {
     return {
-        type: actions.FETCH_TABLES_SUCCESS,
-        tables: tables
+        type: actions.FETCH_CUSTOMERS_SUCCESS,
+        customers: customers
     }
 };
 
-export const fetchFail = error => {
+const fetchFail = error => {
     return {
-        type: actions.FETCH_TABLES_FAIL,
+        type: actions.FETCH_CUSTOMERS_FAIL,
         error: error
     }
 };
 
-export const fetchTables = () => {
+export const fetchCustomers = () => {
     return dispatch => {
         dispatch(fetchStart());
         const token = "Bearer ".concat(localStorage.getItem("token"));
-        axios.get("/tables/user", {
+        axios.get("/customers", {
             headers: {
                 "Authorization": token
             }

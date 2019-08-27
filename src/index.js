@@ -12,12 +12,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import authReducer from "./store/reducers/authReducer";
 import tablesReducer from "./store/reducers/tableReducer";
+import customersReducer from "./store/reducers/customerReducer";
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : null;
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    tables: tablesReducer
+    tables: tablesReducer,
+    customers: customersReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

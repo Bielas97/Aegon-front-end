@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as actions from '../../store/actions/index';
-import Spinner from "reactstrap/es/Spinner";
+import Spinner from '../../components/UI/spinner/Spinner';
+import Backdrop from "../../components/UI/backdrop/Backdrop";
 
 class KvTables extends Component {
 
@@ -11,8 +12,42 @@ class KvTables extends Component {
 
     render() {
 
-        let table = <Spinner/>;
-        if(!this.props.loading) {
+        const sortedTables = this.props.tables.sort((a, b) => a.id - b.id);
+        let tbody = sortedTables.map(el => {
+            return (
+                <tbody key={el.id}>
+                <tr>
+                    <th scope="row">{el.id}</th>
+                    <td>{el.name}</td>
+                    <td>{el.maxPlaces}</td>
+                    <td>{el.soldPlaces}</td>
+                </tr>
+                </tbody>
+            )
+        });
+
+        if (this.props.dashboard) {
+            const sortedBySoldPlaces = sortedTables.sort((a, b) => a.soldPlaces - b.soldPlaces).slice(0, 5);
+            tbody = sortedBySoldPlaces.map(el => {
+                return (
+                    <tbody key={el.id}>
+                    <tr>
+                        <th scope="row">{el.id}</th>
+                        <td>{el.name}</td>
+                        <td>{el.maxPlaces}</td>
+                        <td>{el.soldPlaces}</td>
+                    </tr>
+                    </tbody>
+                )
+            })
+        }
+
+        let table = (
+            <Backdrop show>
+                <Spinner/>
+            </Backdrop>
+        );
+        if (!this.props.loading) {
             table = (
                 <div className="container">
                     <br/>
@@ -25,47 +60,29 @@ class KvTables extends Component {
                             <th scope="col">Sold places</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        </tbody>
+                        {tbody}
                     </table>
-                    {console.log("siemka", this.props.tables)}
                 </div>
             )
         }
 
-        return table;
+        return table
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        tables: state.tables.tables,
-        loading: state.tables.loading
-    }
-};
+const
+    mapStateToProps = state => {
+        return {
+            tables: state.tables.tables,
+            loading: state.tables.loading
+        }
+    };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchTables: () => dispatch(actions.fetch())
-    }
-};
+const
+    mapDispatchToProps = dispatch => {
+        return {
+            onFetchTables: () => dispatch(actions.fetchTables())
+        }
+    };
 
 export default connect(mapStateToProps, mapDispatchToProps)(KvTables)

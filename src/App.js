@@ -43,7 +43,6 @@ class App extends Component {
 
         return (
             <Auxiliary>
-
                 <Layout>
                     {routes}
                 </Layout>

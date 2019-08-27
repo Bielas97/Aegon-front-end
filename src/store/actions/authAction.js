@@ -24,6 +24,7 @@ export const authFail = (error) => {
 
 export const logout = () =>{
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     return {
         type: actions.AUTH_LOGOUT
     }
@@ -40,6 +41,7 @@ export const auth = (login, password) => {
             .then(response => {
                 console.log(response);
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("role", response.data.role);
                 dispatch(authSuccess(response.data.token, response.data.role));
             })
             .catch(err => {
@@ -51,10 +53,11 @@ export const auth = (login, password) => {
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem("token");
-        if(!token){
-            dispatch(logout());
+        const role = localStorage.getItem("role");
+        if(token && role){
+            dispatch(authSuccess(token, role))
         } else {
-            dispatch(authSuccess(token));
+            dispatch(logout())
         }
     }
 };

@@ -27,29 +27,33 @@ class Auth extends Component {
     render() {
         let loginForm = <Redirect to="/"/>
 
-        if (!this.props.isAuthenticated) {
+        if (!this.props.isAuthenticated && !this.props.loading) {
             loginForm = (
                 <div className="container">
-                    <form onSubmit={this.formSubmitHandler}>
-                        <div className="form-group">
-                            <label htmlFor="login">Login:</label>
-                            <input type="text" name="login" id="login" className="form-control"
-                                   placeholder="enter login"
-                                   onChange={this.inputChangeHandler}/>
-                            <small className="form-text text-muted">obtain your login from aegon admin</small>
+                    <div className="row">
+                        <div className="col-6 offset-3">
+                            <form onSubmit={this.formSubmitHandler}>
+                                <div className="form-group">
+                                    <label htmlFor="login">Login:</label>
+                                    <input type="text" name="login" id="login" className="form-control"
+                                           placeholder="enter login"
+                                           onChange={this.inputChangeHandler}/>
+                                    <small className="form-text text-muted">obtain your login from aegon admin</small>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="passwordId">Password:</label>
+                                    <input type="password" name="password" className="form-control" id="passwordId"
+                                           placeholder="enter password" onChange={this.inputChangeHandler}/>
+                                </div>
+                                <button type="submit" className="btn btn-info">Login</button>
+                            </form>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="passwordId">Password:</label>
-                            <input type="password" name="password" className="form-control" id="passwordId"
-                                   placeholder="enter password" onChange={this.inputChangeHandler}/>
-                        </div>
-                        <button type="submit" className="btn btn-info">Login</button>
-                    </form>
+                    </div>
                 </div>
             );
-        } else if (this.props.isAuthenticated && this.props.loading){
+        } else if (this.props.loading) {
             loginForm = (
-                <Backdrop show={true}>
+                <Backdrop show>
                     <Spinner/>
                 </Backdrop>
             )
@@ -57,7 +61,6 @@ class Auth extends Component {
 
         return (
             <Auxiliary>
-                {console.log("++++", this.props.error)}
                 {loginForm}
             </Auxiliary>
         );

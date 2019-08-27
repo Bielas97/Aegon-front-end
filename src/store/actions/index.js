@@ -5,5 +5,8 @@ export {
     setAuthRedirectPath
 } from './authAction'
 export {
-    fetch
+    fetchTables
 } from './tableAction'
+export {
+    fetchCustomers
+} from './customerAction'

@@ -14,7 +14,7 @@ const navigationItems = props => {
         <ul className="navbar-nav">
             <LogoutButton isAuth={props.isAuth}>logout</LogoutButton>
         </ul>
-    </Auxiliary> : <ul className="mx-auto"><h3>AEGON SYSTEM</h3></ul>
+    </Auxiliary> : <ul className="mx-auto"><h3 className="justify-content-center">AEGON SYSTEM</h3></ul>
 
 
     return items
