@@ -31,7 +31,6 @@ export const fetchTickets = () => {
             }
         })
             .then(response => {
-                console.log(response);
                 dispatch(fetchSuccess(response.data))
             })
             .catch(err => {

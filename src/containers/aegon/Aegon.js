@@ -7,12 +7,23 @@ import Customers from "../model/customers/Customers";
 
 class Aegon extends Component {
 
+    componentDidMount() {
+        if (this.props.admin) {
+            this.props.onFetchTickets();
+            this.props.onFetchUsers();
+        }
+        this.props.onFetchFreePlaces();
+    }
+
     render() {
         return (
-            <div className="container-fluid">
+            <div className="container-xl-fluid">
                 <Cards
                     isAdmin={this.props.admin}
                     freeTables={this.props.noFreeTables}
+                    tickets={this.props.noTickets}
+                    users={this.props.noUsers}
+                    freePlaces={this.props.noFreePlaces}
                 />
                 <div className="row">
                     <div className="col-6">
@@ -36,13 +47,19 @@ class Aegon extends Component {
 const mapStateToProps = state => {
     return {
         admin: state.auth.admin,
-        noFreeTables: state.tables.tables.length
+        noFreeTables: state.tables.tables.length,
+        noTickets: state.tickets.tickets.length,
+        noUsers: state.users.users.length,
+        noFreePlaces: state.tables.freePlaces
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchTables: () => dispatch(actions.fetchTables())
+        onFetchTables: () => dispatch(actions.fetchTables()),
+        onFetchTickets: () => dispatch(actions.fetchTickets()),
+        onFetchUsers: () => dispatch(actions.fetchUsers()),
+        onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces())
     }
 };
 

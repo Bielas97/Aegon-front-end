@@ -7,7 +7,7 @@ const cards = props => {
     let cards = props.isAdmin ? (
         <div className="row w-100 h-100">
             <div className="col-md-3">
-                <Card link="/"
+                <Card link="/tables"
                       stylename="info"
                       name="Free tables"
                       subname={props.freeTables}
@@ -17,28 +17,28 @@ const cards = props => {
                 <Card link="/"
                       stylename="success"
                       name="Free places"
-                      subname="109"
+                      subname={props.freePlaces}
                       fontAwesomeIcon="fa fa-bar-chart"/>
             </div>
             <div className="col-md-3">
                 <Card link="/users"
                       stylename="danger"
                       name="Users"
-                      subname="10"
+                      subname={props.users}
                       fontAwesomeIcon="fa fa-user"/>
             </div>
             <div className="col-md-3">
-                <Card link="/"
+                <Card link="/tickets"
                       stylename="warning"
                       name="Tickets"
-                      subname="14"
+                      subname={props.tickets}
                       fontAwesomeIcon="fa fa-ticket"/>
             </div>
         </div>
     ) : (
         <div className="row w-100 h-100">
             <div className="col-md-6">
-                <Card link="/"
+                <Card link="/tables"
                       stylename="info"
                       name="Free tables"
                       subname={props.freeTables}
@@ -48,7 +48,7 @@ const cards = props => {
                 <Card link="/"
                       stylename="success"
                       name="Free places"
-                      subname="109"
+                      subname={props.freePlaces}
                       fontAwesomeIcon="fa fa-bar-chart"/>
             </div>
         </div>
