@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import * as actions from '../../store/actions/index';
 import {connect} from "react-redux";
-import KvTables from "../kv-tables/KvTables";
+import KvTables from "../model/kv-tables/KvTables";
 import Cards from "../../components/UI/cards/Cards";
-import Customers from "../customers/Customers";
+import Customers from "../model/customers/Customers";
 
 class Aegon extends Component {
 
     render() {
         return (
             <div className="container-fluid">
-                <Cards isAdmin={this.props.admin}/>
+                <Cards
+                    isAdmin={this.props.admin}
+                    freeTables={this.props.noFreeTables}
+                />
                 <div className="row">
                     <div className="col-6">
                         <div className="d-flex justify-content-center">
@@ -33,6 +36,7 @@ class Aegon extends Component {
 const mapStateToProps = state => {
     return {
         admin: state.auth.admin,
+        noFreeTables: state.tables.tables.length
     }
 };
 

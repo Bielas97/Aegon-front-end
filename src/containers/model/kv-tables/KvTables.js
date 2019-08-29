@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import * as actions from '../../store/actions/index';
-import Spinner from '../../components/UI/spinner/Spinner';
-import Backdrop from "../../components/UI/backdrop/Backdrop";
+import * as actions from '../../../store/actions';
+import Spinner from '../../../components/UI/spinner/Spinner';
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
+import './KvTables.css'
 
 class KvTables extends Component {
 
@@ -70,16 +71,14 @@ class KvTables extends Component {
     }
 }
 
-const
-    mapStateToProps = state => {
+const mapStateToProps = state => {
         return {
             tables: state.tables.tables,
             loading: state.tables.loading
         }
     };
 
-const
-    mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
         return {
             onFetchTables: () => dispatch(actions.fetchTables())
         }

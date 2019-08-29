@@ -8,7 +8,9 @@ import * as actions from "./store/actions/index";
 import {connect} from "react-redux";
 import Auth from "./containers/auth/Auth";
 import Logout from "./containers/auth/logout/Logout";
-import KvTables from "./containers/kv-tables/KvTables";
+import KvTables from "./containers/model/kv-tables/KvTables";
+import Users from "./containers/model/users/Users";
+import Tickets from "./containers/model/tickets/Tickets";
 
 class App extends Component {
 
@@ -27,18 +29,35 @@ class App extends Component {
         );
 
 
-        if(this.props.isAuthenticated){
-            routes = (
-                <Auxiliary>
-                    <Switch>
-                        <Route path="/auth" exact component={Auth}/>
-                        <Route path="/" exact component={Aegon}/>
-                        <Route path="/logout" exact component={Logout}/>
-                        <Route path="/tables" exact component={KvTables}/>
-                        <Redirect to="/"/>
-                    </Switch>
-                </Auxiliary>
-            )
+        if (this.props.isAuthenticated) {
+            if (localStorage.getItem('role') === 'ROLE_ADMIN') {
+                routes = (
+                    <Auxiliary>
+                        <Switch>
+                            <Route path="/auth" exact component={Auth}/>
+                            <Route path="/" exact component={Aegon}/>
+                            <Route path="/logout" exact component={Logout}/>
+                            <Route path="/tables" exact component={KvTables}/>
+                            <Route path="/users" exact component={Users}/>
+                            <Route path="/tickets" exact component={Tickets}/>
+                            <Redirect to="/"/>
+                        </Switch>
+                    </Auxiliary>
+                )
+            } else {
+                routes = (
+                    <Auxiliary>
+                        <Switch>
+                            <Route path="/auth" exact component={Auth}/>
+                            <Route path="/" exact component={Aegon}/>
+                            <Route path="/logout" exact component={Logout}/>
+                            <Route path="/tables" exact component={KvTables}/>
+                            <Redirect to="/"/>
+                        </Switch>
+                    </Auxiliary>
+                )
+            }
+
         }
 
         return (

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './Card.css'
+import {NavLink} from "react-router-dom";
 
 const card = props => {
 
@@ -14,9 +15,11 @@ const card = props => {
 
     return (
         <div className={divStyleName}>
-            <div className={stylename}><span className={props.fontAwesomeIcon} aria-hidden/></div>
-            <div className={textStyleName}><h4>{props.name}</h4></div>
-            <div className={textStyleName}><h1>{props.subname}</h1></div>
+            <NavLink className="nav-link" to={props.link}>
+                <div className={stylename}><span className={props.fontAwesomeIcon} aria-hidden/></div>
+                <div className={textStyleName}><h4>{props.name}</h4></div>
+                <div className={textStyleName}><h1>{props.subname}</h1></div>
+            </NavLink>
         </div>
     )
 

@@ -13,13 +13,17 @@ import * as serviceWorker from './serviceWorker';
 import authReducer from "./store/reducers/authReducer";
 import tablesReducer from "./store/reducers/tableReducer";
 import customersReducer from "./store/reducers/customerReducer";
+import usersReducer from "./store/reducers/usersReducer";
+import ticketReducer from "./store/reducers/ticketReducer";
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : null;
 
 const rootReducer = combineReducers({
     auth: authReducer,
     tables: tablesReducer,
-    customers: customersReducer
+    customers: customersReducer,
+    users: usersReducer,
+    tickets: ticketReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

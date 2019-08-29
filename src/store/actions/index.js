@@ -10,3 +10,11 @@ export {
 export {
     fetchCustomers
 } from './customerAction'
+export {
+    fetchUsers,
+    deleteUserById,
+    registerUser
+} from './usersAction'
+export {
+    fetchTickets
+} from './ticketsActions'
