@@ -155,8 +155,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchUsers: () => dispatch(actions.fetchUsers()),
-        onDeleteUser: id => dispatch(actions.deleteUserById(id)),
-        onRegisterUser: user => dispatch(actions.registerUser(user))
+        onDeleteUser: id => dispatch(actions.deleteUserById(id))
     }
 };
 

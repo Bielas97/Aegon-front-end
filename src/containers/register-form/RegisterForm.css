@@ -1,0 +1,27 @@
+.vl{
+    /*border-left: 1px solid #ccc;*/
+    border-right: 1px solid #ccc;
+    height: 500px;
+}
+.my-fa-13x {
+    font-size: 15em !important;
+}
+.my-background{
+    box-shadow: 1px 1px 10px 5px #d9534f !important;
+}
+
+.submitButton:not(:disabled) {
+    animation: enable 0.3s linear;
+}
+
+@keyframes enable {
+    0% {
+        transform: scale(1);
+    }
+    60% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

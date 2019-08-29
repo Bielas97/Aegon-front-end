@@ -27,8 +27,6 @@ class Tickets extends Component {
     };
 
     boolInputHandler = (event) => {
-        console.log('event value', [event.target.name], [event.target.value]);
-        console.log('updated uni before', this.state.updatedUni)
         this.setState({
             ...this.state,
             [event.target.name]: event.target.value === 'true'

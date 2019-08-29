@@ -1,9 +1,9 @@
 import * as actions from './actionTypes';
 import axios from '../../axios-api';
 
-const fetchStart = () => {
+const userActionStart = () => {
     return {
-        type: actions.FETCH_USERS_START
+        type: actions.USER_ACTION_START
     }
 };
 
@@ -14,16 +14,22 @@ const fetchSuccess = users => {
     }
 };
 
-const fetchFail = error => {
+const userActionFail = error => {
     return {
-        type: actions.FETCH_USERS_FAILED,
+        type: actions.USER_ACTOIN_FAIL,
         error: error
+    }
+};
+
+const registerUserSuccess = () => {
+    return {
+        type: actions.REGISTER_USER_SUCCESS
     }
 };
 
 export const fetchUsers = () => {
     return dispatch => {
-        dispatch(fetchStart());
+        dispatch(userActionStart());
         const token = "Bearer ".concat(localStorage.getItem("token"));
         axios.get("/users", {
             headers: {
@@ -34,7 +40,7 @@ export const fetchUsers = () => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(userActionFail(error));
             })
     }
 };
@@ -42,7 +48,7 @@ export const fetchUsers = () => {
 
 export const deleteUserById = id => {
     return dispatch => {
-        dispatch(fetchStart());
+        dispatch(userActionStart());
         const url = '/users/'.concat(id);
         const token = "Bearer ".concat(localStorage.getItem("token"));
         axios.delete(url, {
@@ -55,14 +61,14 @@ export const deleteUserById = id => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(userActionFail(error));
             })
     }
 };
 
 export const registerUser = user => {
     return dispatch => {
-        dispatch(fetchStart());
+        dispatch(userActionStart());
         const token = "Bearer ".concat(localStorage.getItem("token"));
         axios.post("/users", user, {
             headers: {
@@ -70,10 +76,10 @@ export const registerUser = user => {
             }
         })
             .then(response => {
-                dispatch(fetchSuccess(response.data))
+                dispatch(registerUserSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(userActionFail(error));
             })
     }
 };

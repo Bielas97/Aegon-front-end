@@ -15,6 +15,7 @@ const navigationItems = props => {
                         <NavigationItem link="/tables" name="Tables"/>
                         <NavigationItem link="/users" name="Users"/>
                         <NavigationItem link="/tickets" name="Tickets"/>
+                        <NavigationItem link="/register" name="Register"/>
                     </ul>
                     <ul className="navbar-nav">
                         <LogoutButton isAuth={props.isAuth}>logout</LogoutButton>

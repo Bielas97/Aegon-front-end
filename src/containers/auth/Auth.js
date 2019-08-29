@@ -19,8 +19,7 @@ class Auth extends Component {
         })
     };
 
-    formSubmitHandler = (event) => {
-        event.preventDefault();
+    formSubmitHandler = () => {
         this.props.onAuth(this.state.login, this.state.password);
     };
 

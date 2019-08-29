@@ -11,6 +11,7 @@ import Logout from "./containers/auth/logout/Logout";
 import KvTables from "./containers/model/kv-tables/KvTables";
 import Users from "./containers/model/users/Users";
 import Tickets from "./containers/model/tickets/Tickets";
+import RegisterForm from "./containers/register-form/RegisterForm";
 
 class App extends Component {
 
@@ -40,6 +41,7 @@ class App extends Component {
                             <Route path="/tables" exact component={KvTables}/>
                             <Route path="/users" exact component={Users}/>
                             <Route path="/tickets" exact component={Tickets}/>
+                            <Route path="/register" exact component={RegisterForm}/>
                             <Redirect to="/"/>
                         </Switch>
                     </Auxiliary>
