@@ -26,6 +26,15 @@ class Tickets extends Component {
         })
     };
 
+    boolInputHandler = (event) => {
+        console.log('event value', [event.target.name], [event.target.value]);
+        console.log('updated uni before', this.state.updatedUni)
+        this.setState({
+            ...this.state,
+            [event.target.name]: event.target.value === 'true'
+        })
+    };
+
     getTicketById = id => {
         const url = '/tickets/'.concat(id);
         const token = "Bearer ".concat(localStorage.getItem("token"));
@@ -101,15 +110,19 @@ class Tickets extends Component {
                                     <label>
                                         <input
                                             type="radio"
-                                            name="optradio"
-                                            checked={this.state.ticket.uni === 'true'}/><span className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
+                                            name="updatedUni"
+                                            value={true}
+                                            checked={this.state.updatedUni}
+                                            onChange={this.boolInputHandler}/><span className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
                                 </div>
                                 <div className="radio">
                                     <label>
                                         <input
                                             type="radio"
-                                            name="optradio"
-                                            checked={this.state.ticket.uni !== 'true'}/><span className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
+                                            name="updatedUni"
+                                            value={false}
+                                            checked={!this.state.updatedUni}
+                                            onChange={this.boolInputHandler}/><span className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +130,8 @@ class Tickets extends Component {
                 </div>
             )
         }
+
+
 
         return (
             <div className="container-fluid">
