@@ -193,7 +193,6 @@ class RegisterForm extends Component {
 
         const ticketsOptions = (
             this.props.tickets.map(ticket => {
-                //console.log('ticket -----> ', ticket);
                 return (
                     <div className="form-check form-check-inline" key={ticket.shortName}>
                         <input className="form-check-input"

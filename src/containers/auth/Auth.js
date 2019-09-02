@@ -10,8 +10,8 @@ import axios from '../../axios-api';
 
 class Auth extends Component {
     state = {
-        login: '',
-        password: ''
+        login: [],
+        password: []
     };
 
     inputChangeHandler = (event) => {
@@ -25,6 +25,10 @@ class Auth extends Component {
         event.preventDefault();
         this.props.onAuth(this.state.login, this.state.password);
     };
+
+    submitDisable = () => {
+        return (this.state.login.length === 0 || this.state.password.length === 0)
+    }
 
     render() {
         let loginForm = <Redirect to="/"/>
@@ -47,7 +51,7 @@ class Auth extends Component {
                                     <input type="password" name="password" className="form-control" id="passwordId"
                                            placeholder="enter password" onChange={this.inputChangeHandler}/>
                                 </div>
-                                <button type="submit" className="btn btn-info">Login</button>
+                                <button type="submit" className="btn btn-info" disabled={this.submitDisable()}>Login</button>
                             </form>
                         </div>
                     </div>
