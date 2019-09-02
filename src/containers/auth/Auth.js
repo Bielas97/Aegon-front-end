@@ -4,7 +4,9 @@ import * as actions from '../../store/actions/index';
 import {Redirect} from "react-router-dom";
 import Backdrop from "../../components/UI/backdrop/Backdrop";
 import Spinner from "../../components/UI/spinner/Spinner";
-import Auxiliary from "../../hoc/Auxiliary";
+import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
+import errorHandler from "../../hoc/error-handler/ErrorHandler";
+import axios from '../../axios-api';
 
 class Auth extends Component {
     state = {
@@ -19,7 +21,8 @@ class Auth extends Component {
         })
     };
 
-    formSubmitHandler = () => {
+    formSubmitHandler = (event) => {
+        event.preventDefault();
         this.props.onAuth(this.state.login, this.state.password);
     };
 
@@ -31,7 +34,7 @@ class Auth extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-6 offset-3">
-                            <form onSubmit={this.formSubmitHandler}>
+                            <form onSubmit={(event) => this.formSubmitHandler(event)}>
                                 <div className="form-group">
                                     <label htmlFor="login">Login:</label>
                                     <input type="text" name="login" id="login" className="form-control"
@@ -80,4 +83,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(Auth, axios));

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import Auxiliary from "./hoc/Auxiliary";
+import Auxiliary from "./hoc/Auxiliary/Auxiliary";
 import {Redirect, Route, Switch} from "react-router-dom";
 import Aegon from "./containers/aegon/Aegon";
 import Layout from "./containers/layout/Layout";
@@ -12,6 +12,7 @@ import KvTables from "./containers/model/kv-tables/KvTables";
 import Users from "./containers/model/users/Users";
 import Tickets from "./containers/model/tickets/Tickets";
 import RegisterForm from "./containers/register-form/RegisterForm";
+import {NotificationContainer} from "react-notifications";
 
 class App extends Component {
 
@@ -66,6 +67,7 @@ class App extends Component {
             <Auxiliary>
                 <Layout>
                     {routes}
+                    <NotificationContainer/>
                 </Layout>
             </Auxiliary>
         )

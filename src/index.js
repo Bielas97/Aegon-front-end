@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'react-notifications/lib/notifications.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

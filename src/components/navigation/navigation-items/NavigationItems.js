@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationItem from "./navigation-item/NavigationItem";
 import LogoutButton from "./logout-button/LogoutButton";
-import Auxiliary from "../../../hoc/Auxiliary";
+import Auxiliary from "../../../hoc/Auxiliary/Auxiliary";
 
 const navigationItems = props => {
     let navItems = <ul className="mx-auto"><h3 className="justify-content-center">AEGON SYSTEM</h3></ul>;

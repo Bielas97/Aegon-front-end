@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as actions from '../../store/actions/index';
 import './RegisterForm.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import errorHandler from "../../hoc/error-handler/ErrorHandler";
+import axios from '../../axios-api';
 
 class RegisterForm extends Component {
-
     state = {
         username: "",
         password: "",
@@ -14,6 +16,34 @@ class RegisterForm extends Component {
 
         confirmPassword: "",
         confirmTouched: false
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
+            console.log('registerForm', this.props.msg);
+            NotificationManager.success(this.props.msg, this.props.timestamp);
+        }
+    }
+
+    createNotification = (type, msg, timestamp) => {
+        return () => {
+            switch (type) {
+                case 'info':
+                    NotificationManager.info('Info message');
+                    break;
+                case 'success':
+                    NotificationManager.success(msg, timestamp);
+                    break;
+                case 'warning':
+                    NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+                    break;
+                case 'error':
+                    NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                        alert('callback');
+                    });
+                    break;
+            }
+        };
     };
 
     inputChangeHandler = (event) => {
@@ -33,6 +63,7 @@ class RegisterForm extends Component {
 
     clearState = event => {
         event.preventDefault();
+        console.log("clear state")
         this.setState({
             username: '',
             password: '',
@@ -46,25 +77,26 @@ class RegisterForm extends Component {
     };
 
     registerAdmin = event => {
-        event.preventDefault();
+        //event.preventDefault();
         const admin = {
             username: this.state.username.join(),
             password: this.state.password.join(),
             role: 'ADMIN'
         };
         this.props.onRegister(admin);
+        this.clearState(event);
     };
 
     submitDisable = (passwordTheSame) => {
-        if(this.state.username === '' || this.state.confirmPassword === '' || this.state.password === '' || !passwordTheSame){
+        if (this.state.username === '' || this.state.confirmPassword === '' || this.state.password === '' || !passwordTheSame) {
             return true
-        } else if(passwordTheSame){
+        } else if (passwordTheSame) {
             return false
         }
     };
 
     render() {
-        const passwordTheSame = JSON.stringify(this.state.confirmPassword ) === JSON.stringify(this.state.password);
+        const passwordTheSame = JSON.stringify(this.state.confirmPassword) === JSON.stringify(this.state.password);
         const confirmStyle = this.state.confirmTouched && (!passwordTheSame) ? "form-control my-background" : "form-control";
         const adminForm = (
             <div className="row">
@@ -112,16 +144,15 @@ class RegisterForm extends Component {
                         </div>
                         <br/>
                         <div className="float-right">
-                            <button className="btn btn-outline-info mr-3"
+                            <span className="btn btn-outline-info mr-3"
                                     onClick={event => this.clearState(event)}>Clear
-                            </button>
-                            <span className="d-inline-block" data-toggle="popover" data-content="Disabled popover">
-                                <button
-                                    className="btn btn-outline-success submitButton"
-                                    type="submit"
-                                    disabled={this.submitDisable(passwordTheSame)}
-                                >Submit</button>
                             </span>
+                            <button
+                                className="btn btn-outline-success submitButton"
+                                type="submit"
+                                disabled={this.submitDisable(passwordTheSame)}
+                            >Submit
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -155,6 +186,7 @@ class RegisterForm extends Component {
                         </div>
                     </div>
                 </div>
+                <NotificationContainer/>
             </div>
         )
     }
@@ -163,7 +195,9 @@ class RegisterForm extends Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.users.loading
+        loading: state.users.loading,
+        msg: state.users.message,
+        timestamp: state.users.timestamp
     }
 };
 
@@ -173,4 +207,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)
+export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(RegisterForm, axios))

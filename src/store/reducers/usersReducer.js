@@ -4,7 +4,9 @@ import {updateObject} from "../../shared/utils";
 const initialState = {
     users: [],
     loading: false,
-    error: null
+    error: null,
+    message: null,
+    timestamp: null
 };
 
 const userActionStart = (state, action) => {
@@ -29,8 +31,14 @@ const userActionFail = (state, action) => {
 };
 
 const registerUserSuccess = (state, action) => {
+    const dateTime = action.timestamp.split('T');
+    const hourMiliseconds = dateTime[1].split('.');
+    const resultTime = dateTime[0].concat(' ').concat(hourMiliseconds[0]);
+    console.log('[userReducer]', action.message, resultTime)
     return updateObject(state, {
-        loading: false
+        loading: false,
+        message: action.message,
+        timestamp: resultTime
     })
 };
 

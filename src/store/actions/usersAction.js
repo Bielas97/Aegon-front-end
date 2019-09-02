@@ -21,9 +21,11 @@ const userActionFail = error => {
     }
 };
 
-const registerUserSuccess = () => {
+const registerUserSuccess = (action) => {
     return {
-        type: actions.REGISTER_USER_SUCCESS
+        type: actions.REGISTER_USER_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
     }
 };
 
@@ -72,13 +74,15 @@ export const registerUser = user => {
         const token = "Bearer ".concat(localStorage.getItem("token"));
         axios.post("/users", user, {
             headers: {
-                "Authorization": token
+                "Authorization": token,
+                "Access-Control-Allow-Origin": "*"
             }
         })
             .then(response => {
                 dispatch(registerUserSuccess(response.data))
             })
             .catch(error => {
+                console.log('eeeeeeeeeeeeeror:', error.response)
                 dispatch(userActionFail(error));
             })
     }
