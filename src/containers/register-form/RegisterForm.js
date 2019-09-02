@@ -2,56 +2,78 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as actions from '../../store/actions/index';
 import './RegisterForm.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 import errorHandler from "../../hoc/error-handler/ErrorHandler";
 import axios from '../../axios-api';
 
 class RegisterForm extends Component {
     state = {
-        username: "",
-        password: "",
-        role: null,
-        numberOfTickets: null,
-        tickets: null,
+        //admin
+        adminUsername: [],
+        adminPassword: [],
+        adminConfirmPassword: [],
+        adminConfirmTouched: false,
+        //user
+        userUsername: [],
+        userPassword: [],
+        userRole: null,
+        userNumberOfTickets: ["10"],
+        userTickets: [],
+        userConfirmPassword: [],
+        userConfirmTouched: false,
+    };
 
-        confirmPassword: "",
-        confirmTouched: false
+    clearState = event => {
+        event.preventDefault();
+        this.setState({
+            //admin
+            adminUsername: [],
+            adminPassword: [],
+            adminConfirmPassword: [],
+            adminConfirmTouched: false,
+            //user
+            userUsername: [],
+            userPassword: [],
+            userRole: null,
+            userNumberOfTickets: ["10"],
+            userTickets: [],
+            userConfirmPassword: [],
+            userConfirmTouched: false,
+        })
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
-            console.log('registerForm', this.props.msg);
             NotificationManager.success(this.props.msg, this.props.timestamp);
         }
     }
 
-    createNotification = (type, msg, timestamp) => {
-        return () => {
-            switch (type) {
-                case 'info':
-                    NotificationManager.info('Info message');
-                    break;
-                case 'success':
-                    NotificationManager.success(msg, timestamp);
-                    break;
-                case 'warning':
-                    NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
-                    break;
-                case 'error':
-                    NotificationManager.error('Error message', 'Click me!', 5000, () => {
-                        alert('callback');
-                    });
-                    break;
-            }
-        };
-    };
-
     inputChangeHandler = (event) => {
-        if (event.target.name === 'confirmPassword') {
+        if (event.target.name === 'adminConfirmPassword') {
             this.setState({
                 ...this.state,
                 [event.target.name]: [event.target.value],
-                confirmTouched: true
+                adminConfirmTouched: true
+            })
+        } else if (event.target.name === 'userConfirmPassword') {
+            this.setState({
+                ...this.state,
+                [event.target.name]: [event.target.value],
+                userConfirmTouched: true
+            })
+        } else if (event.target.name.startsWith('ticket_')) {
+            let updatedTickets = [...this.state.userTickets];
+            const ticketId = {
+                id: [event.target.value].join()
+            };
+            if(event.target.checked){
+                updatedTickets.push(ticketId)
+            } else {
+                updatedTickets = updatedTickets.filter(ticket => ticket.id !== ticketId.id)
+            }
+            this.setState({
+                ...this.state,
+                userTickets: updatedTickets
             })
         } else {
             this.setState({
@@ -61,43 +83,53 @@ class RegisterForm extends Component {
         }
     };
 
-    clearState = event => {
-        event.preventDefault();
-        console.log("clear state")
-        this.setState({
-            username: '',
-            password: '',
-            role: null,
-            numberOfTickets: null,
-            tickets: null,
-
-            confirmPassword: '',
-            confirmTouched: false
-        })
-    };
-
     registerAdmin = event => {
-        //event.preventDefault();
+        event.preventDefault();
         const admin = {
-            username: this.state.username.join(),
-            password: this.state.password.join(),
+            username: this.state.adminUsername.join(),
+            password: this.state.adminPassword.join(),
             role: 'ADMIN'
         };
         this.props.onRegister(admin);
         this.clearState(event);
     };
 
-    submitDisable = (passwordTheSame) => {
-        if (this.state.username === '' || this.state.confirmPassword === '' || this.state.password === '' || !passwordTheSame) {
-            return true
-        } else if (passwordTheSame) {
-            return false
+    registerUser = event => {
+        event.preventDefault()
+        const user = {
+            username: this.state.userUsername.join(),
+            password: this.state.userPassword.join(),
+            role: 'USER',
+            tickets: this.state.userTickets,
+            numberOfTickets: this.state.userNumberOfTickets.join()
+        };
+        //console.log('user', user)
+        this.props.onRegister(user);
+        this.clearState(event);
+    };
+
+    submitDisable = (passwordTheSame, type) => {
+        if (type === 'admin') {
+            if (this.state.adminUsername.join() === '' || this.state.adminConfirmPassword.join() === '' || this.state.adminPassword.join() === '' || !passwordTheSame) {
+                return true
+            } else if (passwordTheSame) {
+                return false
+            }
+        } else if (type === 'user') {
+            if (this.state.userUsername.join() === '' || this.state.userConfirmPassword.join() === '' || this.state.userPassword.join() === '' ||
+                !passwordTheSame || this.state.userNumberOfTickets === 0 || this.state.userTickets.length === 0 || this.state.userNumberOfTickets.join() === '0') {
+                return true
+            } else if (passwordTheSame) {
+                return false
+            }
         }
     };
 
     render() {
-        const passwordTheSame = JSON.stringify(this.state.confirmPassword) === JSON.stringify(this.state.password);
-        const confirmStyle = this.state.confirmTouched && (!passwordTheSame) ? "form-control my-background" : "form-control";
+        const adminPasswordTheSame = JSON.stringify(this.state.adminConfirmPassword) === JSON.stringify(this.state.adminPassword);
+        const userPasswordTheSame = JSON.stringify(this.state.userConfirmPassword) === JSON.stringify(this.state.userPassword);
+        const adminConfirmStyle = this.state.adminConfirmTouched && (!adminPasswordTheSame) ? "form-control my-background" : "form-control";
+        const userConfirmStyle = this.state.userConfirmTouched && (!userPasswordTheSame) ? "form-control my-background" : "form-control";
         const adminForm = (
             <div className="row">
                 <span className="float-left text-info fa fa-user-secret my-fa-13x mr-3 ml-3"/>
@@ -105,52 +137,52 @@ class RegisterForm extends Component {
                     <div className="float-right form-group">
                         <div className="row">
                             <div className="col-3 col-form-label">
-                                <label htmlFor="username">Username:</label>
+                                <label htmlFor="adminUsername">Username:</label>
                             </div>
                             <div className="col-9">
                                 <input type="text"
-                                       name="username"
-                                       id="username"
+                                       name="adminUsername"
+                                       id="adminUsername"
                                        className="form-control"
-                                       value={this.state.username}
+                                       value={this.state.adminUsername}
                                        onChange={this.inputChangeHandler}/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-3 col-form-label">
-                                <label htmlFor="password">Password:</label>
+                                <label htmlFor="adminPassword">Password:</label>
                             </div>
                             <div className="col-9">
                                 <input type="password"
-                                       name="password"
-                                       id="password"
+                                       name="adminPassword"
+                                       id="adminPassword"
                                        className="form-control"
-                                       value={this.state.password}
+                                       value={this.state.adminPassword}
                                        onChange={this.inputChangeHandler}/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-3">
-                                <label htmlFor="password">Confirm:</label>
+                                <label htmlFor="adminConfirmPassword">Confirm:</label>
                             </div>
                             <div className="col-9">
                                 <input type="password"
-                                       name="confirmPassword"
-                                       id="confirmPassword"
-                                       className={confirmStyle}
-                                       value={this.state.confirmPassword}
+                                       name="adminConfirmPassword"
+                                       id="adminConfirmPassword"
+                                       className={adminConfirmStyle}
+                                       value={this.state.adminConfirmPassword}
                                        onChange={this.inputChangeHandler}/>
                             </div>
                         </div>
                         <br/>
                         <div className="float-right">
                             <span className="btn btn-outline-info mr-3"
-                                    onClick={event => this.clearState(event)}>Clear
+                                  onClick={event => this.clearState(event)}>Clear
                             </span>
                             <button
                                 className="btn btn-outline-success submitButton"
                                 type="submit"
-                                disabled={this.submitDisable(passwordTheSame)}
+                                disabled={this.submitDisable(adminPasswordTheSame, 'admin')}
                             >Submit
                             </button>
                         </div>
@@ -159,15 +191,108 @@ class RegisterForm extends Component {
             </div>
         );
 
+        const ticketsOptions = (
+            this.props.tickets.map(ticket => {
+                //console.log('ticket -----> ', ticket);
+                return (
+                    <div className="form-check form-check-inline" key={ticket.shortName}>
+                        <input className="form-check-input"
+                               type="checkbox" id={ticket.shortName}
+                               value={ticket.id}
+                               name={'ticket_'.concat(ticket.shortName)}
+                               onChange={this.inputChangeHandler}/>
+                        <label className="form-check-label" htmlFor={ticket.shortName}>{ticket.shortName}</label>
+                    </div>
+                )
+            })
+        );
+
         const userForm = (
             <div className="row">
                 <span className="float-left text-info fa fa-user my-fa-13x mr-3 ml-3"/>
+                <form className="ml-3" onSubmit={(event) => this.registerUser(event)}>
+                    <div className="float-right form-group">
+                        <div className="row">
+                            <div className="col-3 col-form-label">
+                                <label htmlFor="userUsername">Username:</label>
+                            </div>
+                            <div className="col-9">
+                                <input type="text"
+                                       name="userUsername"
+                                       id="userUsername"
+                                       className="form-control"
+                                       value={this.state.userUsername}
+                                       onChange={this.inputChangeHandler}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-3 col-form-label">
+                                <label htmlFor="userPassword">Password:</label>
+                            </div>
+                            <div className="col-9">
+                                <input type="password"
+                                       name="userPassword"
+                                       id="userPassword"
+                                       className="form-control"
+                                       value={this.state.userPassword}
+                                       onChange={this.inputChangeHandler}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-3 form-label">
+                                <label htmlFor="userConfirmPassword">Confirm:</label>
+                            </div>
+                            <div className="col-9">
+                                <input type="password"
+                                       name="userConfirmPassword"
+                                       id="userConfirmPassword"
+                                       className={userConfirmStyle}
+                                       value={this.state.userConfirmPassword}
+                                       onChange={this.inputChangeHandler}/>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-3 form-label">
+                                <label htmlFor="userNumberOfTickets">Customers to account:</label>
+                            </div>
+                            <div className="col-9">
+                                <input type="number"
+                                       name="userNumberOfTickets"
+                                       id="userNumberOfTickets"
+                                       className="form-control mt-2"
+                                       value={parseInt(this.state.userNumberOfTickets.join())}
+                                       onChange={this.inputChangeHandler}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-3">
+                                <label>Tickets:</label>
+                            </div>
+                            <div className="col-9">
+                                {ticketsOptions}
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="float-right">
+                            <span className="btn btn-outline-info mr-3"
+                                  onClick={event => this.clearState(event)}>Clear
+                            </span>
+                            <button
+                                className="btn btn-outline-success submitButton"
+                                type="submit"
+                                disabled={this.submitDisable(userPasswordTheSame, 'user')}
+                            >Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         );
 
 
         return (
-
             <div className="container-fluid">
                 <br/>
                 <div className="row">
@@ -186,7 +311,6 @@ class RegisterForm extends Component {
                         </div>
                     </div>
                 </div>
-                <NotificationContainer/>
             </div>
         )
     }
@@ -197,13 +321,14 @@ const mapStateToProps = state => {
     return {
         loading: state.users.loading,
         msg: state.users.message,
-        timestamp: state.users.timestamp
+        timestamp: state.users.timestamp,
+        tickets: state.tickets.tickets
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRegister: user => dispatch(actions.registerUser(user))
+        onRegister: user => dispatch(actions.registerUser(user)),
     }
 };
 

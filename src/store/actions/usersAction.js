@@ -82,7 +82,6 @@ export const registerUser = user => {
                 dispatch(registerUserSuccess(response.data))
             })
             .catch(error => {
-                console.log('eeeeeeeeeeeeeror:', error.response)
                 dispatch(userActionFail(error));
             })
     }
