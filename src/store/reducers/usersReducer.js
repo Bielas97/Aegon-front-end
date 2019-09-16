@@ -1,5 +1,5 @@
 import * as actions from '../actions/actionTypes'
-import {updateObject} from "../../shared/utils";
+import {formatTimestamp, updateObject} from "../../shared/utils";
 
 const initialState = {
     users: [],
@@ -23,6 +23,14 @@ const fetchUsersSuccess = (state, action) => {
     })
 };
 
+const deleteUserSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp),
+        loading: false
+    })
+};
+
 const userActionFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -31,14 +39,10 @@ const userActionFail = (state, action) => {
 };
 
 const registerUserSuccess = (state, action) => {
-    const dateTime = action.timestamp.split('T');
-    const hourMiliseconds = dateTime[1].split('.');
-    const resultTime = dateTime[0].concat(' ').concat(hourMiliseconds[0]);
-    console.log('[userReducer]', action.message, resultTime)
     return updateObject(state, {
         loading: false,
         message: action.message,
-        timestamp: resultTime
+        timestamp: formatTimestamp(action.timestamp)
     })
 };
 
@@ -48,10 +52,12 @@ const usersReducer = (state = initialState, action) => {
             return userActionStart(state, action);
         case actions.FETCH_USERS_SUCCESS:
             return fetchUsersSuccess(state, action);
-        case actions.FETCH_CUSTOMERS_FAIL:
+        case actions.USER_ACTION_FAIL:
             return userActionFail(state, action);
         case actions.REGISTER_USER_SUCCESS:
             return registerUserSuccess(state, action);
+        case actions.DELETE_USER_SUCCESS:
+            return deleteUserSuccess(state, action);
         default:
             return state;
     }

@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import * as actions from '../../../store/actions';
 import axios from '../../../axios-api'
 import '../users/Users.css';
+import {NotificationManager} from "react-notifications";
+import {updateObject} from "../../../shared/utils";
 
 class Tickets extends Component {
 
@@ -12,11 +14,24 @@ class Tickets extends Component {
         updatedShortName: null,
         updatedFullName: null,
         updatedUni: null,
-        updatedTables: []
+        updatedTables: [],
+        clearDetails: false
     };
 
     componentDidMount() {
         this.props.onFetchTickets();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
+            this.props.onFetchTickets();
+            NotificationManager.success(this.props.msg, this.props.timestamp);
+        }
+        if (this.props.error !== null && prevProps.error !== this.props.error) {
+            if (this.props.error.data !== null) {
+                NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+            }
+        }
     }
 
     inputChangeHandler = (event) => {
@@ -59,11 +74,17 @@ class Tickets extends Component {
             })
     };
 
+    deleteTicketById = id => {
+        this.props.onDeleteTicket(id);
+        if (this.state.ticket !== null && id === this.state.ticket.id) {
+            this.setState({...this.state, ticket: null});
+        }
+    };
+
     render() {
         const tbody = this.props.tickets.map(el => {
             const uni = el.uni ? <span className="text-success fa fa-thumbs-o-up"/> :
                 <span className="text-danger fa fa-thumbs-o-down"/>;
-            const tables = el.tables.map(kvTable => kvTable['name']).join(",");
             return (
                 <tbody key={el.id}>
                 <tr>
@@ -71,9 +92,12 @@ class Tickets extends Component {
                     <td>{el.shortName}</td>
                     <td>{el.fullName}</td>
                     <td>{uni}</td>
-                    <td>{tables}</td>
                     <td>
-                        <button className="btn btn-outline-info" onClick={() => this.getTicketById(el.id)}>Details</button>
+                        <button className="btn btn-outline-info" onClick={() => this.getTicketById(el.id)}>Details
+                        </button>
+                        <button className="btn btn-outline-danger ml-2"
+                                onClick={() => this.deleteTicketById(el.id)}>Delete
+                        </button>
                     </td>
                 </tr>
                 </tbody>
@@ -81,8 +105,8 @@ class Tickets extends Component {
         });
 
         let details = null;
-
         if (this.state.ticket) {
+            const tables = this.state.updatedTables.map(kvTable => kvTable['name']).join(",");
             details = (
                 <div className="row">
                     <span className="text-info fa fa-ticket my-fa-13x mr-3"/>
@@ -111,7 +135,8 @@ class Tickets extends Component {
                                             name="updatedUni"
                                             value={true}
                                             checked={this.state.updatedUni}
-                                            onChange={this.boolInputHandler}/><span className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
+                                            onChange={this.boolInputHandler}/><span
+                                        className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
                                 </div>
                                 <div className="radio">
                                     <label>
@@ -120,16 +145,23 @@ class Tickets extends Component {
                                             name="updatedUni"
                                             value={false}
                                             checked={!this.state.updatedUni}
-                                            onChange={this.boolInputHandler}/><span className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
+                                            onChange={this.boolInputHandler}/><span
+                                        className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
                                 </div>
                             </div>
+                            <label>Tables:</label>
+                            <p>{tables}</p>
                         </div>
                     </form>
                 </div>
             )
         }
-
-
+        if (this.state.clearDetails) {
+            details = null;
+            updateObject(this.state, {
+                clearDetails: false
+            })
+        }
 
         return (
             <div className="container-fluid">
@@ -143,7 +175,6 @@ class Tickets extends Component {
                                 <th scope="col">Short name</th>
                                 <th scope="col">Full name</th>
                                 <th scope="col">University</th>
-                                <th scope="col">Tables</th>
                                 <th scope="col">Actions</th>
                             </tr>
                             </thead>
@@ -162,13 +193,17 @@ class Tickets extends Component {
 const mapStateToProps = state => {
     return {
         tickets: state.tickets.tickets,
-        loading: state.tickets.loading
+        loading: state.tickets.loading,
+        msg: state.tickets.message,
+        timestamp: state.tickets.timestamp,
+        error: state.tickets.error
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchTickets: () => dispatch(actions.fetchTickets())
+        onFetchTickets: () => dispatch(actions.fetchTickets()),
+        onDeleteTicket: id => dispatch(actions.deleteTicketById(id))
     }
 };
 

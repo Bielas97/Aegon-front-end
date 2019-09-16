@@ -17,5 +17,6 @@ export {
     registerUser
 } from './usersAction'
 export {
-    fetchTickets
+    fetchTickets,
+    deleteTicketById
 } from './ticketsActions'

@@ -1,13 +1,15 @@
 import * as actions from '../actions/actionTypes'
-import {updateObject} from "../../shared/utils";
+import {formatTimestamp, updateObject} from "../../shared/utils";
 
 const initialState = {
     tickets: [],
     loading: false,
-    error: null
+    error: null,
+    message: null,
+    timestamp: null
 };
 
-const fetchTicketsStart = (state, action) => {
+const ticketsActionStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true
@@ -21,21 +23,31 @@ const fetchTicketsSuccess = (state, action) => {
     })
 };
 
-const fetchTicketsFail = (state, action) => {
+const ticketActionFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
         loading: false
     })
 };
 
+const deleteTicketSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp),
+        loading: false
+    })
+};
+
 const ticketReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.FETCH_TICKETS_START:
-            return fetchTicketsStart(state, action);
+        case actions.TICKET_ACTION_START:
+            return ticketsActionStart(state, action);
+        case actions.TICKET_ACTION_FAIL:
+            return ticketActionFail(state, action);
         case actions.FETCH_TICKETS_SUCCESS:
             return fetchTicketsSuccess(state, action);
-        case actions.FETCH_TICKETS_FAIL:
-            return fetchTicketsFail(state, action);
+        case actions.DELETE_TICKET_SUCCESS:
+            return deleteTicketSuccess(state, action);
         default:
             return state;
     }

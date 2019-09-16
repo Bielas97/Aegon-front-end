@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import * as actions from '../../../store/actions';
 import './Users.css'
 import axios from '../../../axios-api'
+import {NotificationManager} from "react-notifications";
 
 class Users extends Component {
 
@@ -17,6 +18,18 @@ class Users extends Component {
 
     componentDidMount() {
         this.props.onFetchUsers()
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
+            this.props.onFetchUsers();
+            NotificationManager.success(this.props.msg, this.props.timestamp);
+        }
+        if (this.props.error !== null && prevProps.error !== this.props.error) {
+            if (this.props.error.data !== null) {
+                NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+            }
+        }
     }
 
     inputChangeHandler = (event) => {
@@ -52,6 +65,12 @@ class Users extends Component {
             })
     };
 
+    deleteUserById = id => {
+        this.props.onDeleteUser(id);
+        if(this.state.user !== null && id === this.state.user.id){
+            this.setState({...this.state, user: null});
+        }
+    };
 
     render() {
         const tbody = this.props.users.map(el => {
@@ -66,6 +85,9 @@ class Users extends Component {
                     <td>{tickets}</td>
                     <td>
                         <button className="btn btn-outline-info" onClick={() => this.getUserById(el.id)}>Details</button>
+                        <button className="btn btn-outline-danger ml-2"
+                                onClick={() => this.deleteUserById(el.id)}>Delete
+                        </button>
                     </td>
                 </tr>
                 </tbody>
@@ -148,7 +170,10 @@ class Users extends Component {
 const mapStateToProps = state => {
     return {
         users: state.users.users,
-        loading: state.users.loading
+        loading: state.users.loading,
+        msg: state.users.message,
+        timestamp: state.users.timestamp,
+        error: state.users.error
     }
 };
 

@@ -16,7 +16,7 @@ const fetchSuccess = users => {
 
 const userActionFail = error => {
     return {
-        type: actions.USER_ACTOIN_FAIL,
+        type: actions.USER_ACTION_FAIL,
         error: error
     }
 };
@@ -24,6 +24,14 @@ const userActionFail = error => {
 const registerUserSuccess = (action) => {
     return {
         type: actions.REGISTER_USER_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
+    }
+};
+
+const deleteUserSuccess = action => {
+    return {
+        type: actions.DELETE_USER_SUCCESS,
         message: action.message,
         timestamp: action.timestamp
     }
@@ -59,11 +67,10 @@ export const deleteUserById = id => {
             }
         })
             .then(response => {
-                console.log(response);
-                dispatch(fetchSuccess(response.data))
+                dispatch(deleteUserSuccess(response.data))
             })
             .catch(error => {
-                dispatch(userActionFail(error));
+                dispatch(userActionFail(error.response));
             })
     }
 };
@@ -82,7 +89,7 @@ export const registerUser = user => {
                 dispatch(registerUserSuccess(response.data))
             })
             .catch(error => {
-                dispatch(userActionFail(error));
+                dispatch(userActionFail(error.response));
             })
     }
 };

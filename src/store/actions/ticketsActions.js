@@ -1,9 +1,9 @@
 import * as actions from './actionTypes';
 import axios from '../../axios-api';
 
-const fetchStart = () => {
+const ticketsActionStart = () => {
     return {
-        type: actions.FETCH_TICKETS_START
+        type: actions.TICKET_ACTION_START
     }
 };
 
@@ -14,16 +14,24 @@ const fetchSuccess = tickets => {
     }
 };
 
-const fetchFail = error => {
+const ticketActionFail = error => {
     return {
-        type: actions.FETCH_TICKETS_FAIL,
+        type: actions.TICKET_ACTION_FAIL,
         error: error
+    }
+};
+
+const deleteTicketSuccess = action => {
+    return {
+        type: actions.DELETE_TICKET_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
     }
 };
 
 export const fetchTickets = () => {
     return dispatch => {
-        dispatch(fetchStart());
+        dispatch(ticketsActionStart());
         const token = "Bearer ".concat(localStorage.getItem("token"));
         axios.get('/tickets', {
             headers: {
@@ -34,7 +42,26 @@ export const fetchTickets = () => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(err => {
-                dispatch(fetchFail(err))
+                dispatch(ticketActionFail(err))
+            })
+    }
+};
+
+export const deleteTicketById = id => {
+    return dispatch => {
+        dispatch(ticketsActionStart());
+        const url = '/tickets/'.concat(id);
+        const token = "Bearer ".concat(localStorage.getItem("token"));
+        axios.delete(url, {
+            headers: {
+                "Authorization": token
+            }
+        })
+            .then(response => {
+                dispatch(deleteTicketSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(ticketActionFail(error.response));
             })
     }
 };
