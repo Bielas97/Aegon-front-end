@@ -38,6 +38,14 @@ const deleteTicketSuccess = (state, action) => {
     })
 };
 
+const updateTicketSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp),
+        loading: false
+    })
+};
+
 const ticketReducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.TICKET_ACTION_START:
@@ -48,6 +56,8 @@ const ticketReducer = (state = initialState, action) => {
             return fetchTicketsSuccess(state, action);
         case actions.DELETE_TICKET_SUCCESS:
             return deleteTicketSuccess(state, action);
+        case actions.UPDATE_TICKET_SUCCESS:
+            return updateTicketSuccess(state, action);
         default:
             return state;
     }

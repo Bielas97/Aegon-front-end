@@ -37,14 +37,21 @@ const cards = props => {
         </div>
     ) : (
         <div className="row w-100 h-100">
-            <div className="col-md-6">
+            <div className="col-md-4">
                 <Card link="/tables"
                       stylename="info"
                       name="Free tables"
                       subname={props.freeTables}
                       fontAwesomeIcon="fa fa-line-chart"/>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
+                <Card link="/"
+                      stylename="dark"
+                      name="Accounted customers"
+                      subname={props.freeTables}
+                      fontAwesomeIcon="fa fa-dashboard"/>
+            </div>
+            <div className="col-md-4">
                 <Card link="/"
                       stylename="success"
                       name="Free places"

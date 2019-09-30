@@ -40,6 +40,8 @@ const errorHandler = (WrappedComponent, axios) => {
                 return req;
             } );
             this.resInterceptor = axios.interceptors.response.use( res => res, error => {
+                console.log("sssssssssssss");
+                console.log(error);
                 this.setState( {
                     ...this.state,
                     error: error,
@@ -49,8 +51,17 @@ const errorHandler = (WrappedComponent, axios) => {
         }
 
         render () {
-            const msg = this.state.error ? (this.state.error.response.status === 401 ? 'Bad Credentials' : this.state.error.response.data.message) : null;
-            const notification = this.state.shouldUpdate ? <Notification type='error' msg={msg} title='Error!'/> : null;
+            let msg = null;
+            if (this.state.error){
+                msg = this.state.error
+            }
+            if(this.state.response !== undefined && this.state.error.response !== null){
+                msg = this.state.error.response.status === 401 ? 'Bad Credentials' : this.state.response.data.message;
+            }
+            let notification = null;
+            if (this.state.shouldUpdate && msg !== null){
+                notification = <Notification type='error' msg={msg.toString()} title='Error!'/>
+            }
             return (
                 <Auxiliary>
                     {notification}

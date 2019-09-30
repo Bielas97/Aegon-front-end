@@ -10,7 +10,7 @@ class Tickets extends Component {
 
     state = {
         ticket: null,
-        error: null,
+        error: false,
         updatedShortName: null,
         updatedFullName: null,
         updatedUni: null,
@@ -23,7 +23,7 @@ class Tickets extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
+        if (prevProps.msg !== this.props.msg || prevProps.timestamp !== this.props.timestamp) {
             this.props.onFetchTickets();
             NotificationManager.success(this.props.msg, this.props.timestamp);
         }
@@ -37,7 +37,7 @@ class Tickets extends Component {
     inputChangeHandler = (event) => {
         this.setState({
             ...this.state,
-            [event.target.name]: [event.target.value]
+            [event.target.name]: event.target.value
         })
     };
 
@@ -75,10 +75,25 @@ class Tickets extends Component {
     };
 
     deleteTicketById = id => {
+        console.log(this.state.ticket);
         this.props.onDeleteTicket(id);
         if (this.state.ticket !== null && id === this.state.ticket.id) {
             this.setState({...this.state, ticket: null});
         }
+    };
+
+    updateTicket = event => {
+        event.preventDefault();
+        console.log('shortname', this.state.updatedShortName);
+        console.log('fullname', this.state.updatedFullName);
+        const ticket = {
+            id: this.state.ticket.id,
+            shortName: this.state.updatedShortName,
+            fullName: this.state.updatedFullName,
+            uni: this.state.updatedUni,
+            tables: this.state.ticket.tables
+        };
+        this.props.onUpdateTicket(ticket);
     };
 
     render() {
@@ -151,6 +166,10 @@ class Tickets extends Component {
                             </div>
                             <label>Tables:</label>
                             <p>{tables}</p>
+                            <button className="btn btn-outline-success" onClick={event => this.updateTicket(event)}>update</button>
+                            <button className="btn btn-outline-danger ml-2"
+                                    onClick={() => this.deleteTicketById(this.state.ticket.id)}>delete
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -167,7 +186,7 @@ class Tickets extends Component {
             <div className="container-fluid">
                 <br/>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-7">
                         <table className="table table-striped">
                             <thead>
                             <tr>
@@ -181,7 +200,7 @@ class Tickets extends Component {
                             {tbody}
                         </table>
                     </div>
-                    <div className="col-6">
+                    <div className="col-5">
                         {details}
                     </div>
                 </div>
@@ -203,7 +222,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchTickets: () => dispatch(actions.fetchTickets()),
-        onDeleteTicket: id => dispatch(actions.deleteTicketById(id))
+        onDeleteTicket: id => dispatch(actions.deleteTicketById(id)),
+        onUpdateTicket: ticket => dispatch(actions.updateTicket(ticket))
     }
 };
 

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import KvTables from "../model/kv-tables/KvTables";
 import Cards from "../../components/UI/cards/Cards";
 import Customers from "../model/customers/Customers";
+import Ground from "../../components/UI/map/Ground";
 import './Aegon.css';
 
 class Aegon extends Component {
@@ -39,6 +40,14 @@ class Aegon extends Component {
                         </div>
                         <Customers/>
                     </div>
+                </div>
+
+                <hr/>
+                <hr/>
+                <hr/>
+
+                <div className="col-6">
+                    <Ground/>
                 </div>
             </div>
         )

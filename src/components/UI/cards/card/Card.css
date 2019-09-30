@@ -1,24 +1,31 @@
-.my-card
-{
-    position:absolute;
-    left:40%;
-    top:-20px;
-    border-radius:50%;
+.my-card {
+    position: absolute;
+    left: 40%;
+    top: -20px;
+    border-radius: 50%;
 }
 
 .my-div-info:hover {
     box-shadow: 5px 10px 18px #5bc0de;
     cursor: pointer
 }
+
 .my-div-danger:hover {
     box-shadow: 5px 10px 18px #d9534f;
     cursor: pointer
 }
+
 .my-div-success:hover {
     box-shadow: 5px 10px 18px #5cb85c;
     cursor: pointer
 }
+
 .my-div-warning:hover {
     box-shadow: 5px 10px 18px #ffc107;
     cursor: pointer
+}
+
+.my-div-dark:hover {
+    box-shadow: 5px 10px 18px #292b2c;
+    cursor: pointer;
 }

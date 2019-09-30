@@ -18,5 +18,6 @@ export {
 } from './usersAction'
 export {
     fetchTickets,
-    deleteTicketById
+    deleteTicketById,
+    updateTicket
 } from './ticketsActions'
