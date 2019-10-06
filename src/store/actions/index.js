@@ -6,6 +6,7 @@ export {
 } from './authAction'
 export {
     fetchTables,
+    fetchFreeTablesForUser,
     fetchFreePlaces
 } from './tableAction'
 export {

@@ -23,8 +23,8 @@ export const authFail = (error) => {
 };
 
 export const logout = () =>{
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
     return {
         type: actions.AUTH_LOGOUT
     }
@@ -39,8 +39,8 @@ export const auth = (login, password) => {
         };
         axios.post('/login', authData)
             .then(response => {
-                localStorage.setItem("token", response.data.token);
-                localStorage.setItem("role", response.data.role);
+                sessionStorage.setItem("token", response.data.token);
+                sessionStorage.setItem("role", response.data.role);
                 dispatch(authSuccess(response.data.token, response.data.role));
             })
             .catch(err => {
@@ -51,8 +51,8 @@ export const auth = (login, password) => {
 
 export const authCheckState = () => {
     return dispatch => {
-        const token = localStorage.getItem("token");
-        const role = localStorage.getItem("role");
+        const token = sessionStorage.getItem("token");
+        const role = sessionStorage.getItem("role");
         if(token && role){
             dispatch(authSuccess(token, role))
         } else {

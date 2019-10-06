@@ -40,7 +40,7 @@ const deleteUserSuccess = action => {
 export const fetchUsers = () => {
     return dispatch => {
         dispatch(userActionStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get("/users", {
             headers: {
                 "Authorization": token
@@ -60,7 +60,7 @@ export const deleteUserById = id => {
     return dispatch => {
         dispatch(userActionStart());
         const url = '/users/'.concat(id);
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.delete(url, {
             headers: {
                 "Authorization": token
@@ -78,7 +78,7 @@ export const deleteUserById = id => {
 export const registerUser = user => {
     return dispatch => {
         dispatch(userActionStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.post("/users", user, {
             headers: {
                 "Authorization": token,

@@ -41,7 +41,7 @@ class Users extends Component {
 
     getUserById = id => {
         const url = '/users/'.concat(id);
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get(url, {
             headers: {
                 "Authorization": token

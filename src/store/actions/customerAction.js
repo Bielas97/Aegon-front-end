@@ -24,7 +24,7 @@ const fetchFail = error => {
 export const fetchCustomers = () => {
     return dispatch => {
         dispatch(fetchStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get("/customers", {
             headers: {
                 "Authorization": token

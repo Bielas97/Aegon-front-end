@@ -3,8 +3,7 @@ import * as actions from '../../store/actions/index';
 import {connect} from "react-redux";
 import KvTables from "../model/kv-tables/KvTables";
 import Cards from "../../components/UI/cards/Cards";
-import Customers from "../model/customers/Customers";
-import Ground from "../../components/UI/map/Ground";
+import CustomersTable from "../model/customers/CustomersTable";
 import './Aegon.css';
 
 class Aegon extends Component {
@@ -14,7 +13,9 @@ class Aegon extends Component {
             this.props.onFetchTickets();
             this.props.onFetchUsers();
         }
+        this.props.onFetchFreeTablesForUser(1);
         this.props.onFetchFreePlaces();
+        console.log('dsadsa', this.props.freeTables)
     }
 
     render() {
@@ -38,16 +39,8 @@ class Aegon extends Component {
                         <div className="d-flex justify-content-center">
                             <h4>Customers:</h4>
                         </div>
-                        <Customers/>
+                        <CustomersTable/>
                     </div>
-                </div>
-
-                <hr/>
-                <hr/>
-                <hr/>
-
-                <div className="col-6">
-                    <Ground/>
                 </div>
             </div>
         )
@@ -56,8 +49,9 @@ class Aegon extends Component {
 
 const mapStateToProps = state => {
     return {
+        freeTables: state.tables.freeTablesForUser,
         admin: state.auth.admin,
-        noFreeTables: state.tables.tables.length,
+        noFreeTables: state.tables.freeTablesForUser.length,
         noTickets: state.tickets.tickets.length,
         noUsers: state.users.users.length,
         noFreePlaces: state.tables.freePlaces
@@ -66,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchTables: () => dispatch(actions.fetchTables()),
+        onFetchFreeTablesForUser: numberOfPeopleRequestingFreePlaces => dispatch(actions.fetchFreeTablesForUser(numberOfPeopleRequestingFreePlaces)),
         onFetchTickets: () => dispatch(actions.fetchTickets()),
         onFetchUsers: () => dispatch(actions.fetchUsers()),
         onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces())

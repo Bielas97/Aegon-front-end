@@ -2,23 +2,31 @@ import * as actions from '../actions/actionTypes'
 import {updateObject} from "../../shared/utils";
 
 const initialState = {
-    tables: [],
+    allTablesForUser: [],
+    freeTablesForUser: [],
     freePlaces: null,
     loading: false,
     error: null
 };
 
-const fetchStart = (state, action) =>{
+const fetchStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true
     })
 };
 
-const fetchTablesSuccess = (state, action) => {
+const fetchAllTablesSuccess = (state, action) => {
     return updateObject(state, {
-        tables: action.tables,
+        allTablesForUser: action.allTablesForUser,
         loading: false,
+    })
+};
+
+const fetchTablesForUserSuccess = (state, action) => {
+    return updateObject(state, {
+        freeTablesForUser: action.freeTablesForUser,
+        loading: false
     })
 };
 
@@ -40,8 +48,10 @@ const tablesReducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.FETCH_TABLES_START:
             return fetchStart(state, action);
-        case actions.FETCH_TABLES_SUCCESS:
-            return fetchTablesSuccess(state, action);
+        case actions.FETCH_ALL_TABLES_SUCCESS:
+            return fetchAllTablesSuccess(state, action);
+        case actions.FETCH_TABLES_FOR_USER_SUCCESS:
+            return fetchTablesForUserSuccess(state, action);
         case actions.FETCH_TABLES_FAIL:
             return fetchFail(state, action);
         case actions.FETCH_FREE_PLACES_SUCCESS:

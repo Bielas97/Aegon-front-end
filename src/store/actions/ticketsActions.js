@@ -40,7 +40,7 @@ const updateTicketSuccess = action => {
 export const fetchTickets = () => {
     return dispatch => {
         dispatch(ticketsActionStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get('/tickets', {
             headers: {
                 "Authorization": token
@@ -59,7 +59,7 @@ export const deleteTicketById = id => {
     return dispatch => {
         dispatch(ticketsActionStart());
         const url = '/tickets/'.concat(id);
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.delete(url, {
             headers: {
                 "Authorization": token
@@ -78,7 +78,7 @@ export const updateTicket = ticket => {
     return dispatch => {
         dispatch(ticketsActionStart());
         const url = '/tickets';
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.put(url, ticket, {
             headers: {
                 "Authorization": token

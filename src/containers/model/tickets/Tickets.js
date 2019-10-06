@@ -50,7 +50,7 @@ class Tickets extends Component {
 
     getTicketById = id => {
         const url = '/tickets/'.concat(id);
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get(url, {
             headers: {
                 "Authorization": token

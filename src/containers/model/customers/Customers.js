@@ -1,75 +1,26 @@
 import React, {Component} from 'react';
-import {connect} from "react-redux";
-import * as actions from '../../../store/actions';
+import Ground from "../../../components/UI/map/Ground";
 
 class Customers extends Component {
 
-    state = {
-        isMouseInside: false
-    };
-
-
-    componentDidMount() {
-        this.props.onFetchCustomers()
-    }
-
-    mouseEnter = () => {
-        this.setState({
-            ...this.state,
-            isMouseInside: true
-        })
+    circleClicked = id => {
+        console.log('place clicked! place is: ', id)
     };
 
     render() {
 
-        const tbody = this.props.customers.map(el => {
-            const fullName = el.firstName.concat(" ").concat(el.lastName);
-            const index = el.index === true ? <span className="text-success fa fa-thumbs-o-up"/> :
-                <span className="text-danger fa fa-thumbs-o-down"/>;
-            return (
-                <tbody key={el.id}>
-                <tr>
-                    <th scope="row">{el.id}</th>
-                    <td>{fullName}</td>
-                    <td>{el.kvAppearance}</td>
-                    <td>{index}</td>
-                    <td>{el.kvTable.name}</td>
-                </tr>
-                </tbody>
-            )
-        });
+        //dummy data
+        const occupiedTablesById = ['A01', 'A02', 'A03', 'D010', 'C01', 'B02'];
 
         return (
-            <div className="container">
-                <br/>
-                <table className="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Number of KV</th>
-                        <th scope="col">Index</th>
-                        <th scope="col">KV table</th>
-                    </tr>
-                    </thead>
-                    {tbody}
-                </table>
+            <div>
+                <Ground
+                    onCircleClick={id => this.circleClicked(id)}
+                    occupiedTables={occupiedTablesById}
+                />
             </div>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        customers: state.customers.customers,
-        loading: state.customers.loading
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchCustomers: () => dispatch(actions.fetchCustomers())
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Customers);
+export default Customers;

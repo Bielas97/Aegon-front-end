@@ -8,12 +8,12 @@ import './KvTables.css'
 class KvTables extends Component {
 
     componentDidMount() {
-        this.props.onFetchTables()
+        this.props.onFetchTables(1)
     }
 
     render() {
 
-        const sortedTables = this.props.tables.sort((a, b) => a.id - b.id);
+        const sortedTables = this.props.allTablesForUser.sort((a, b) => a.id - b.id);
         let tbody = sortedTables.map(el => {
             return (
                 <tbody key={el.id}>
@@ -73,7 +73,7 @@ class KvTables extends Component {
 
 const mapStateToProps = state => {
         return {
-            tables: state.tables.tables,
+            allTablesForUser: state.tables.allTablesForUser,
             loading: state.tables.loading
         }
     };

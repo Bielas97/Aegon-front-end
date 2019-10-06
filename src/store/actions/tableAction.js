@@ -7,10 +7,17 @@ const fetchStart = () => {
     }
 };
 
-const fetchSuccess = tables => {
+const fetchAllTablesSuccess = allTablesForUser => {
     return {
-        type: actions.FETCH_TABLES_SUCCESS,
-        tables: tables
+        type: actions.FETCH_ALL_TABLES_SUCCESS,
+        allTablesForUser: allTablesForUser
+    }
+};
+
+const fetchFreeTablesForUserSuccess = freeTablesForUser => {
+    return {
+        type: actions.FETCH_TABLES_FOR_USER_SUCCESS,
+        freeTablesForUser: freeTablesForUser
     }
 };
 
@@ -31,14 +38,14 @@ const fetchFreePlacesSuccess = freePlaces => {
 export const fetchTables = () => {
     return dispatch => {
         dispatch(fetchStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get("/tables/user", {
             headers: {
                 "Authorization": token
             }
         })
             .then(response => {
-                dispatch(fetchSuccess(response.data))
+                dispatch(fetchAllTablesSuccess(response.data))
             })
             .catch(error => {
                 dispatch(fetchFail(error));
@@ -46,10 +53,30 @@ export const fetchTables = () => {
     }
 };
 
+export const fetchFreeTablesForUser = numberOfPeopleRequestingFreePlaces => {
+    return dispatch => {
+        dispatch(fetchStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        const url = "/tables/user/" + numberOfPeopleRequestingFreePlaces;
+        axios.get(url, {
+            headers: {
+                "Authorization": token
+            }
+        })
+            .then(response => {
+                dispatch(fetchFreeTablesForUserSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(fetchFail(error));
+            })
+    }
+};
+
+
 export const fetchFreePlaces = () => {
     return dispatch => {
         dispatch(fetchStart());
-        const token = "Bearer ".concat(localStorage.getItem("token"));
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get("/tables/free/places", {
             headers: {
                 "Authorization": token
@@ -63,3 +90,21 @@ export const fetchFreePlaces = () => {
             })
     }
 };
+
+/*export const fetchFreeTables = () => {
+    return dispatch => {
+        dispatch(fetchStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.get("/user/1", {
+            headers: {
+                'Authorization': token
+            }
+        })
+            .then(response => {
+                dispatch(fetchFreeTablesSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(fetchFail(error))
+            })
+    }
+}*/
