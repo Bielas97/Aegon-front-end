@@ -13,7 +13,9 @@ class Users extends Component {
         updatedUsername: null,
         updatedRole: null,
         updatedNumberOfTickets: null,
-        updatedTickets: []
+        updatedTickets: [],
+        adminPassword: null,
+        newUserPassword: null
     };
 
     componentDidMount() {
@@ -21,7 +23,7 @@ class Users extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.msg !== this.props.msg && prevProps.timestamp !== this.props.timestamp) {
+        if (prevProps.msg !== this.props.msg || prevProps.timestamp !== this.props.timestamp) {
             this.props.onFetchUsers();
             NotificationManager.success(this.props.msg, this.props.timestamp);
         }
@@ -35,7 +37,7 @@ class Users extends Component {
     inputChangeHandler = (event) => {
         this.setState({
             ...this.state,
-            [event.target.name]: [event.target.value]
+            [event.target.name]: event.target.value
         })
     };
 
@@ -67,8 +69,24 @@ class Users extends Component {
 
     deleteUserById = id => {
         this.props.onDeleteUser(id);
-        if(this.state.user !== null && id === this.state.user.id){
+        if (this.state.user !== null && id === this.state.user.id) {
             this.setState({...this.state, user: null});
+        }
+    };
+
+    changeUserPassword = (event) => {
+        event.preventDefault();
+        const userPasswordChangeDto = {
+            adminPassword: this.state.adminPassword,
+            userUsername: this.state.user.username,
+            newUserPassword: this.state.newUserPassword
+        };
+        this.props.onChangePasswordForUser(userPasswordChangeDto);
+    };
+
+    formatUserTickets = () => {
+        if (this.state.tickets !== null) {
+            return this.state.user.tickets.map(ticket => ticket.shortName).join(",")
         }
     };
 
@@ -84,7 +102,8 @@ class Users extends Component {
                     <td>{el.role}</td>
                     <td>{tickets}</td>
                     <td>
-                        <button className="btn btn-outline-info" onClick={() => this.getUserById(el.id)}>Details</button>
+                        <button className="btn btn-outline-info" onClick={() => this.getUserById(el.id)}>Details
+                        </button>
                         <button className="btn btn-outline-danger ml-2"
                                 onClick={() => this.deleteUserById(el.id)}>Delete
                         </button>
@@ -95,6 +114,15 @@ class Users extends Component {
         });
 
         let details = null;
+        let ticketList = null;
+        if (this.state.user !== null) {
+            ticketList =
+                <div>
+                    <br/>
+                    <label>Tickets: {this.formatUserTickets()}</label>
+                </div>;
+        }
+
 
         if (this.state.user) {
             const iconStyle = this.state.user.role === 'ADMIN' ? "float-left text-info fa fa-user-secret my-fa-13x mr-3" : "float-left text-info fa fa-user my-fa-13x mr-3";
@@ -118,22 +146,28 @@ class Users extends Component {
                                    value={this.state.updatedNumberOfTickets ? this.state.updatedNumberOfTickets : -1}
                                    onChange={this.inputChangeHandler}/>
                             <small className="form-text text-muted">-1 means infinite</small>
+                            {this.state.user !== null && this.state.user.role === 'USER' ? ticketList : null}
+                            <hr/>
+                            <label>Change user password</label>
                             <br/>
-                            <label>Role</label>
-                            <div className="radio">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="optradio"
-                                        checked={this.state.user.role === 'ADMIN'}/>Admin</label>
-                            </div>
-                            <div className="radio">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="optradio"
-                                        checked={this.state.user.role !== 'ADMIN'}/>User</label>
-                            </div>
+                            <label>Admin password:</label>
+                            <input type="password"
+                                   name="adminPassword"
+                                   id="adminPassword"
+                                   className="form-control"
+                                   onChange={this.inputChangeHandler}
+                            />
+                            <label>New user password:</label>
+                            <input type="password"
+                                   name="newUserPassword"
+                                   id="newUserPassword"
+                                   className="form-control"
+                                   onChange={this.inputChangeHandler}
+                            />
+                            <br/>
+                            <button className="btn btn-outline-success"
+                                    onClick={event => this.changeUserPassword(event)}>Submit
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -180,7 +214,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchUsers: () => dispatch(actions.fetchUsers()),
-        onDeleteUser: id => dispatch(actions.deleteUserById(id))
+        onDeleteUser: id => dispatch(actions.deleteUserById(id)),
+        onChangePasswordForUser: userPasswordChangeDto => dispatch(actions.changePasswordForUser(userPasswordChangeDto))
     }
 };
 

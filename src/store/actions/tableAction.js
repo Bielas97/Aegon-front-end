@@ -35,6 +35,13 @@ const fetchFreePlacesSuccess = freePlaces => {
     }
 };
 
+const fetchTablesWithoutTicketSuccess = tablesWithoutTicket => {
+    return {
+        type: actions.FETCH_TABLES_WITHOUT_TICKET,
+        tablesWithoutTicket: tablesWithoutTicket
+    }
+};
+
 export const fetchTables = () => {
     return dispatch => {
         dispatch(fetchStart());
@@ -91,20 +98,20 @@ export const fetchFreePlaces = () => {
     }
 };
 
-/*export const fetchFreeTables = () => {
+export const fetchTablesWithoutTicket = () => {
     return dispatch => {
         dispatch(fetchStart());
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
-        axios.get("/user/1", {
+        axios.get("/tables/ticket/free", {
             headers: {
-                'Authorization': token
+                "Authorization": token
             }
         })
             .then(response => {
-                dispatch(fetchFreeTablesSuccess(response.data))
+                dispatch(fetchTablesWithoutTicketSuccess(response.data))
             })
             .catch(error => {
                 dispatch(fetchFail(error))
             })
     }
-}*/
+};

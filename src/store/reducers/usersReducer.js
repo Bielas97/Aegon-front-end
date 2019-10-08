@@ -46,6 +46,14 @@ const registerUserSuccess = (state, action) => {
     })
 };
 
+const changePasswordForUser = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp)
+    })
+};
+
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.USER_ACTION_START:
@@ -58,6 +66,8 @@ const usersReducer = (state = initialState, action) => {
             return registerUserSuccess(state, action);
         case actions.DELETE_USER_SUCCESS:
             return deleteUserSuccess(state, action);
+        case actions.CHANGE_PASSWORD_FOR_USER:
+            return changePasswordForUser(state, action);
         default:
             return state;
     }

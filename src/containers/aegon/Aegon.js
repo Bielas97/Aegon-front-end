@@ -14,8 +14,8 @@ class Aegon extends Component {
             this.props.onFetchUsers();
         }
         this.props.onFetchFreeTablesForUser(1);
+        //this.props.onFetchTablesWithoutTicket();
         this.props.onFetchFreePlaces();
-        console.log('dsadsa', this.props.freeTables)
     }
 
     render() {
@@ -63,7 +63,7 @@ const mapDispatchToProps = dispatch => {
         onFetchFreeTablesForUser: numberOfPeopleRequestingFreePlaces => dispatch(actions.fetchFreeTablesForUser(numberOfPeopleRequestingFreePlaces)),
         onFetchTickets: () => dispatch(actions.fetchTickets()),
         onFetchUsers: () => dispatch(actions.fetchUsers()),
-        onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces())
+        onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces()),
     }
 };
 

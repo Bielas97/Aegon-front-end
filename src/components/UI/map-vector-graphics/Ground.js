@@ -18,176 +18,176 @@ const ground = props => {
                 <g>
                     <circle cx="730.6" cy="1606.7" r="38.3"
                             id="A05"
-                            fill={props.occupiedTables.includes('A05') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A05')}
+                            fill={props.freeTables.includes('A05') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A05')}
                             style={pointer}/>
                     <circle cx="512.3" cy="1050.7" r="38.3" id="A01"
-                            fill={props.occupiedTables.includes('A01') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A01')}
+                            fill={props.freeTables.includes('A01') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A01')}
                             style={pointer}/>
                     <circle cx="566.9" cy="1189.7" r="38.3" id="A02"
-                            fill={props.occupiedTables.includes('A02') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A02')}
+                            fill={props.freeTables.includes('A02') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A02')}
                             style={pointer}/>
                     <circle cx="621.5" cy="1328.7" r="38.3" id="A03"
-                            fill={props.occupiedTables.includes('A03') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A03')}
+                            fill={props.freeTables.includes('A03') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A03')}
                             style={pointer}/>
                     <circle cx="676" cy="1467.7" r="38.3" id="A04"
-                            fill={props.occupiedTables.includes('A04') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A04')}
+                            fill={props.freeTables.includes('A04') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A04')}
                             style={pointer}/>
                     <circle cx="640.6" cy="1080.6" r="38.3" id="A06"
-                            fill={props.occupiedTables.includes('A06') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A06')}
+                            fill={props.freeTables.includes('A06') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A06')}
                             style={pointer}/>
                     <circle cx="695.2" cy="1219.6" r="38.3" id="A07"
-                            fill={props.occupiedTables.includes('A07') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A07')}
+                            fill={props.freeTables.includes('A07') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A07')}
                             style={pointer}/>
                     <circle cx="749.8" cy="1358.5" r="38.3" id="A08"
-                            fill={props.occupiedTables.includes('A08') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A08')}
+                            fill={props.freeTables.includes('A08') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A08')}
                             style={pointer}/>
                     <circle cx="804.3" cy="1497.5" r="38.3" id="A09"
-                            fill={props.occupiedTables.includes('A09') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A09')}
+                            fill={props.freeTables.includes('A09') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A09')}
                             style={pointer}/>
                     <circle cx="768.9" cy="1110.4" r="38.3" id="A010"
-                            fill={props.occupiedTables.includes('A010') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A010')}
+                            fill={props.freeTables.includes('A010') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A010')}
                             style={pointer}/>
                     <circle cx="823.5" cy="1249.4" r="38.3" id="A011"
-                            fill={props.occupiedTables.includes('A011') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A011')}
+                            fill={props.freeTables.includes('A011') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A011')}
                             style={pointer}/>
                     <circle cx="878.1" cy="1388.4" r="38.3" id="A012"
-                            fill={props.occupiedTables.includes('A012') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('A012')}
+                            fill={props.freeTables.includes('A012') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('A012')}
                             style={pointer}/>
                 </g>
                 <g>
                     <circle cx="1202.3" cy="521.3" r="38.3" id="B05"
-                            fill={props.occupiedTables.includes('B05') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B05')}
+                            fill={props.freeTables.includes('B05') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B05')}
                             style={pointer}/>
                     <circle cx="660.4" cy="751.3" r="38.3" id="B01"
-                            fill={props.occupiedTables.includes('B01') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B01')}
+                            fill={props.freeTables.includes('B01') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B01')}
                             style={pointer}/>
                     <circle cx="788.9" cy="693.8" r="38.3" id="B02"
-                            fill={props.occupiedTables.includes('B02') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B02')}
+                            fill={props.freeTables.includes('B02') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B02')}
                             style={pointer}/>
                     <circle cx="926.7" cy="636.3" r="38.3" id="B03"
-                            fill={props.occupiedTables.includes('B03') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B03')}
+                            fill={props.freeTables.includes('B03') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B03')}
                             style={pointer}/>
                     <circle cx="1064.5" cy="578.8" r="38.3" id="B04"
-                            fill={props.occupiedTables.includes('B04') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B04')}
+                            fill={props.freeTables.includes('B04') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B04')}
                             style={pointer}/>
                     <circle cx="789.7" cy="822.7" r="38.3" id="B06"
-                            fill={props.occupiedTables.includes('B06') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B06')}
+                            fill={props.freeTables.includes('B06') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B06')}
                             style={pointer}/>
                     <circle cx="927.5" cy="765.2" r="38.3" id="B07"
-                            fill={props.occupiedTables.includes('B07') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B07')}
+                            fill={props.freeTables.includes('B07') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B07')}
                             style={pointer}/>
                     <circle cx="1065.3" cy="707.7" r="38.3" id="B08"
-                            fill={props.occupiedTables.includes('B08') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B08')}
+                            fill={props.freeTables.includes('B08') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B08')}
                             style={pointer}/>
                     <circle cx="1203.1" cy="650.2" r="38.3" id="B09"
-                            fill={props.occupiedTables.includes('B09') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('B09')}
+                            fill={props.freeTables.includes('B09') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('B09')}
                             style={pointer}/>
                 </g>
                 <circle cx="2132.8" cy="1604.7" r="38.3" id="D05"
-                        fill={props.occupiedTables.includes('D05') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D05')}
+                        fill={props.freeTables.includes('D05') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D05')}
                         style={pointer}/>
                 <circle cx="2351.1" cy="1048.7" r="38.3" id="D01"
-                        fill={props.occupiedTables.includes('D01') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D01')}
+                        fill={props.freeTables.includes('D01') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D01')}
                         style={pointer}/>
                 <circle cx="2296.5" cy="1187.7" r="38.3" id="D02"
-                        fill={props.occupiedTables.includes('D02') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D02')}
+                        fill={props.freeTables.includes('D02') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D02')}
                         style={pointer}/>
                 <circle cx="2242" cy="1326.7" r="38.3" id="D03"
-                        fill={props.occupiedTables.includes('D03') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D03')}
+                        fill={props.freeTables.includes('D03') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D03')}
                         style={pointer}/>
                 <circle cx="2187.4" cy="1465.7" r="38.3" id="D04"
-                        fill={props.occupiedTables.includes('D04') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D04')}
+                        fill={props.freeTables.includes('D04') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D04')}
                         style={pointer}/>
                 <circle cx="2222.8" cy="1078.6" r="38.3" id="D06"
-                        fill={props.occupiedTables.includes('D06') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D06')}
+                        fill={props.freeTables.includes('D06') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D06')}
                         style={pointer}/>
                 <circle cx="2168.2" cy="1217.6" r="38.3" id="D07"
-                        fill={props.occupiedTables.includes('D07') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D07')}
+                        fill={props.freeTables.includes('D07') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D07')}
                         style={pointer}/>
                 <circle cx="2113.7" cy="1356.5" r="38.3" id="D08"
-                        fill={props.occupiedTables.includes('D08') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D08')}
+                        fill={props.freeTables.includes('D08') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D08')}
                         style={pointer}/>
                 <circle cx="2059.1" cy="1495.5" r="38.3" id="D09"
-                        fill={props.occupiedTables.includes('D09') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D09')}
+                        fill={props.freeTables.includes('D09') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D09')}
                         style={pointer}/>
                 <circle cx="2094.5" cy="1108.4" r="38.3" id="D011"
-                        fill={props.occupiedTables.includes('D011') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D011')}
+                        fill={props.freeTables.includes('D011') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D011')}
                         style={pointer}/>
                 <circle cx="2039.9" cy="1247.4" r="38.3" id="D012"
-                        fill={props.occupiedTables.includes('D012') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D012')}
+                        fill={props.freeTables.includes('D012') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D012')}
                         style={pointer}/>
                 <circle cx="1985.4" cy="1386.4" r="38.3" id="D013"
-                        fill={props.occupiedTables.includes('D013') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D013')}
+                        fill={props.freeTables.includes('D013') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D013')}
                         style={pointer}/>
                 <g>
                     <circle cx="1661.1" cy="519.3" r="38.3" id="C05"
-                            fill={props.occupiedTables.includes('C05') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C05')}
+                            fill={props.freeTables.includes('C05') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C05')}
                             style={pointer}/>
                     <circle cx="2203" cy="749.3" r="38.3" id="C01"
-                            fill={props.occupiedTables.includes('C01') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C01')}
+                            fill={props.freeTables.includes('C01') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C01')}
                             style={pointer}/>
                     <circle cx="2074.5" cy="691.8" r="38.3" id="C02"
-                            fill={props.occupiedTables.includes('C02') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C02')}
+                            fill={props.freeTables.includes('C02') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C02')}
                             style={pointer}/>
                     <circle cx="1936.7" cy="634.3" r="38.3" id="C03"
-                            fill={props.occupiedTables.includes('C03') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C03')}
+                            fill={props.freeTables.includes('C03') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C03')}
                             style={pointer}/>
                     <circle cx="1798.9" cy="576.8" r="38.3" id="C04"
-                            fill={props.occupiedTables.includes('C04') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C04')}
+                            fill={props.freeTables.includes('C04') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C04')}
                             style={pointer}/>
                     <circle cx="2073.7" cy="820.7" r="38.3" id="C06"
-                            fill={props.occupiedTables.includes('C06') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C06')}
+                            fill={props.freeTables.includes('C06') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C06')}
                             style={pointer}/>
                     <circle cx="1935.9" cy="763.2" r="38.3" id="C07"
-                            fill={props.occupiedTables.includes('C07') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C07')}
+                            fill={props.freeTables.includes('C07') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C07')}
                             style={pointer}/>
                     <circle cx="1798.1" cy="705.7" r="38.3" id="C08"
-                            fill={props.occupiedTables.includes('C08') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C08')}
+                            fill={props.freeTables.includes('C08') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C08')}
                             style={pointer}/>
                     <circle cx="1660.3" cy="648.2" r="38.3" id="C09"
-                            fill={props.occupiedTables.includes('C09') ? '#d9534f' : '#5cb85c'}
-                            onClick={() => props.onCircleClick('C09')}
+                            fill={props.freeTables.includes('C09') ? '#5cb85c' : '#d9534f'}
+                            onClick={() => props.onTableClick('C09')}
                             style={pointer}/>
                 </g>
                 <g>
@@ -448,8 +448,8 @@ const ground = props => {
 		C2117.6,1342.8,2116.3,1342.3,2114.3,1342.2L2114.3,1342.2z"/>
                 </g>
                 <circle cx="2004.7" cy="1634.5" r="38.3" id="D010"
-                        fill={props.occupiedTables.includes('D010') ? '#d9534f' : '#5cb85c'}
-                        onClick={() => props.onCircleClick('D010')}
+                        fill={props.freeTables.includes('D010') ? '#5cb85c' : '#d9534f'}
+                        onClick={() => props.onTableClick('D010')}
                         style={pointer}/>
                 <g>
                     <path  d="M2241.3,1324.9l-1.4,0v-1.7c1.1,0,2.1-0.2,2.8-0.5c0.7-0.3,1.5-0.9,2.4-1.8c0.9-0.9,1.3-2,1.3-3.3

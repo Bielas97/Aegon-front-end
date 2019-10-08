@@ -5,6 +5,7 @@ import axios from '../../../axios-api'
 import '../users/Users.css';
 import {NotificationManager} from "react-notifications";
 import {updateObject} from "../../../shared/utils";
+import NewTicket from "./NewTicket";
 
 class Tickets extends Component {
 
@@ -75,7 +76,6 @@ class Tickets extends Component {
     };
 
     deleteTicketById = id => {
-        console.log(this.state.ticket);
         this.props.onDeleteTicket(id);
         if (this.state.ticket !== null && id === this.state.ticket.id) {
             this.setState({...this.state, ticket: null});
@@ -204,6 +204,9 @@ class Tickets extends Component {
                         {details}
                     </div>
                 </div>
+                <br/>
+                <h3>New Ticket</h3>
+                <NewTicket/>
             </div>
         );
     }

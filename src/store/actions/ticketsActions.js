@@ -37,6 +37,14 @@ const updateTicketSuccess = action => {
     }
 };
 
+const addTicketSuccess = action => {
+    return {
+        type: actions.ADD_TICKET_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
+    }
+};
+
 export const fetchTickets = () => {
     return dispatch => {
         dispatch(ticketsActionStart());
@@ -77,9 +85,8 @@ export const deleteTicketById = id => {
 export const updateTicket = ticket => {
     return dispatch => {
         dispatch(ticketsActionStart());
-        const url = '/tickets';
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
-        axios.put(url, ticket, {
+        axios.put('/tickets', ticket, {
             headers: {
                 "Authorization": token
             }
@@ -90,6 +97,24 @@ export const updateTicket = ticket => {
             .catch(error => {
                 console.log('error', error);
                 console.log('error response', error.response);
+                dispatch(ticketActionFail(error.response))
+            })
+    }
+};
+
+export const addTicket = ticket => {
+    return dispatch => {
+        dispatch(ticketsActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.post('/tickets', ticket, {
+            headers: {
+                "Authorization": token
+            }
+        })
+            .then(response => {
+                dispatch(addTicketSuccess(response.data))
+            })
+            .catch(error => {
                 dispatch(ticketActionFail(error.response))
             })
     }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Ground from "../../../components/UI/map/Ground";
+import SecondFloor from "../../../components/UI/map-vector-graphics/SecondFloor";
 
 class Customers extends Component {
 
@@ -10,13 +10,12 @@ class Customers extends Component {
     render() {
 
         //dummy data
-        const occupiedTablesById = ['A01', 'A02', 'A03', 'D010', 'C01', 'B02'];
+        const freeTablesById = ['A11', 'A12', 'A13', 'D010', 'C01', 'B02'];
 
         return (
-            <div>
-                <Ground
-                    onCircleClick={id => this.circleClicked(id)}
-                    occupiedTables={occupiedTablesById}
+            <div className="col-6">
+                <SecondFloor onCircleClick={this.circleClicked}
+                             freeTables={freeTablesById}
                 />
             </div>
         )

@@ -37,6 +37,14 @@ const deleteUserSuccess = action => {
     }
 };
 
+const changePasswordForUserSuccess = action => {
+    return {
+        type: actions.CHANGE_PASSWORD_FOR_USER,
+        message: action.message,
+        timestamp: action.timestamp
+    }
+};
+
 export const fetchUsers = () => {
     return dispatch => {
         dispatch(userActionStart());
@@ -93,3 +101,21 @@ export const registerUser = user => {
             })
     }
 };
+
+export const changePasswordForUser = userPasswordChangeDto => {
+    return dispatch => {
+        dispatch(userActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.post("/users/password", userPasswordChangeDto, {
+            headers: {
+                "Authorization": token
+            }
+        })
+            .then(response => {
+                dispatch(changePasswordForUserSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(userActionFail(error.response))
+            })
+    }
+}

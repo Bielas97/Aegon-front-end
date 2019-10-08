@@ -4,6 +4,7 @@ import {updateObject} from "../../shared/utils";
 const initialState = {
     allTablesForUser: [],
     freeTablesForUser: [],
+    tablesWithoutTicket: [],
     freePlaces: null,
     loading: false,
     error: null
@@ -20,6 +21,13 @@ const fetchAllTablesSuccess = (state, action) => {
     return updateObject(state, {
         allTablesForUser: action.allTablesForUser,
         loading: false,
+    })
+};
+
+const fetchTablesWithoutTicket = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        tablesWithoutTicket: action.tablesWithoutTicket
     })
 };
 
@@ -56,6 +64,8 @@ const tablesReducer = (state = initialState, action) => {
             return fetchFail(state, action);
         case actions.FETCH_FREE_PLACES_SUCCESS:
             return fetchFreePlacesSuccess(state, action);
+        case actions.FETCH_TABLES_WITHOUT_TICKET:
+            return fetchTablesWithoutTicket(state, action);
         default:
             return state
     }

@@ -7,7 +7,8 @@ export {
 export {
     fetchTables,
     fetchFreeTablesForUser,
-    fetchFreePlaces
+    fetchFreePlaces,
+    fetchTablesWithoutTicket
 } from './tableAction'
 export {
     fetchCustomers
@@ -15,10 +16,12 @@ export {
 export {
     fetchUsers,
     deleteUserById,
-    registerUser
+    registerUser,
+    changePasswordForUser
 } from './usersAction'
 export {
     fetchTickets,
     deleteTicketById,
-    updateTicket
+    updateTicket,
+    addTicket
 } from './ticketsActions'
