@@ -6,7 +6,6 @@ const ground = props => {
         cursor: 'pointer'
     };
 
-
     return (
         <div>
             <svg

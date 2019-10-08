@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 
 import * as actions from '../../../store/actions';
 import axios from '../../../axios-api'
+import NewCustomer from "./NewCustomer";
 
 class Customers extends Component {
 
@@ -163,10 +164,11 @@ class Customers extends Component {
                     <div className="col-6">
                         {details}
                     </div>
-                    <br/>
-                    {/*<h3>New Customer</h3>*/}
                 </div>
-                <button className="btn btn-outline-success" onClick={this.showProps}>show props</button>
+                <br/>
+                <h3>New Customer:</h3>
+                <NewCustomer/>
+                {/*<button className="btn btn-outline-success" onClick={this.showProps}>show props</button>*/}
             </div>
         );
     }

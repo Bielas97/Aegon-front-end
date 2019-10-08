@@ -28,14 +28,14 @@ class NewTicket extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.timestamp !== prevProps.timestamp) {
+            this.props.onFetchTablesWithoutTicket();
+        }
         if (this.props.tablesWithoutTicket.length !== prevProps.tablesWithoutTicket.length) {
             this.setState({
                 ...this.state,
                 tablesWithoutTicket: this.props.tablesWithoutTicket.map(table => table.name)
             })
-        }
-        if (this.props.timestamp !== prevProps.timestamp) {
-            this.props.onFetchTablesWithoutTicket();
         }
     }
 

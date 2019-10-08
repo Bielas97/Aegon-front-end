@@ -206,7 +206,7 @@ class Tickets extends Component {
                     </div>
                 </div>
                 <br/>
-                <h3>New Ticket</h3>
+                <h3>New Ticket:</h3>
                 <NewTicket/>
             </div>
         );
