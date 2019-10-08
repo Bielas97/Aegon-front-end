@@ -3,7 +3,7 @@ import * as actions from '../../store/actions/index';
 import {connect} from "react-redux";
 import KvTables from "../model/kv-tables/KvTables";
 import Cards from "../../components/UI/cards/Cards";
-import CustomersTable from "../model/customers/CustomersTable";
+import Customers from "../model/customers/Customers";
 import './Aegon.css';
 
 class Aegon extends Component {
@@ -39,7 +39,7 @@ class Aegon extends Component {
                         <div className="d-flex justify-content-center">
                             <h4>Customers:</h4>
                         </div>
-                        <CustomersTable/>
+                        <Customers/>
                     </div>
                 </div>
             </div>
