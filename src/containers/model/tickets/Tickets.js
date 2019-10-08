@@ -108,7 +108,8 @@ class Tickets extends Component {
                     <td>{el.fullName}</td>
                     <td>{uni}</td>
                     <td>
-                        <button className="btn btn-outline-info" onClick={() => this.getTicketById(el.id)}>Details
+                        <button className="btn btn-outline-info"
+                                onClick={() => this.getTicketById(el.id)}>Details
                         </button>
                         <button className="btn btn-outline-danger ml-2"
                                 onClick={() => this.deleteTicketById(el.id)}>Delete
