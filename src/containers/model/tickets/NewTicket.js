@@ -21,6 +21,10 @@ class NewTicket extends Component {
 
     componentDidMount() {
         this.props.onFetchTablesWithoutTicket();
+        this.setState({
+            ...this.state,
+            tablesWithoutTicket: this.props.tablesWithoutTicket.map(table => table.name)
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -127,6 +131,18 @@ class NewTicket extends Component {
         this.clearState();
     };
 
+    checkState = () => {
+        console.log('this.state', this.state)
+    };
+
+    checkProps = () => {
+        console.log(this.props, this.props)
+    };
+
+    isSubmitDisabled = () => {
+        return !this.state.ticketFullName || !this.state.ticketShortName || this.state.chosenTables.length <= 0
+    };
+
     render() {
         return (
             <div>
@@ -176,7 +192,7 @@ class NewTicket extends Component {
                                 <label>Tables:</label>
                                 <h6>{this.state.chosenTables.join(",")}</h6>
                             </div>
-                            <button className="btn btn-outline-success" type="submit">Submit</button>
+                            <button className="btn btn-outline-success submitButton" type="submit" disabled={this.isSubmitDisabled()}>Submit</button>
                         </form>
                     </div>
                     <div className="col-6">
