@@ -56,7 +56,6 @@ class Customers extends Component {
             }
         })
             .then(response => {
-                console.log(response.data)
                 this.setState({
                     ...this.state,
                     customer: response.data,
@@ -64,7 +63,6 @@ class Customers extends Component {
                     updatedLastName: response.data.lastName,
                     updatedStudent: response.data.index
                 })
-                console.log(this.state)
             })
             .catch(error => {
                 this.setState({
@@ -74,8 +72,29 @@ class Customers extends Component {
             })
     };
 
+    deleteCustomerById = id => {
+        this.props.onDeleteCustomer(id)
+        this.setState({
+            ...this.state,
+            customer: null
+        })
+    };
+
+    updateCustomer = event => {
+        event.preventDefault();
+        const updatedCustomer = {
+            id: this.state.customer.id,
+            firstName: this.state.updatedFirstName,
+            lastName: this.state.updatedLastName,
+            index: this.state.updatedStudent
+        };
+        console.log(updatedCustomer);
+        this.props.onUpdateCustomer(updatedCustomer);
+    };
+
     showProps = () => {
-        console.log(this.props)
+        console.log('this props', this.props);
+        console.log('this state', this.state);
     };
 
     render() {
@@ -95,7 +114,7 @@ class Customers extends Component {
                                 onClick={() => this.getCustomerById(customer.id)}>Details
                         </button>
                         <button className="btn btn-outline-danger ml-2"
-                            /*onClick={() => this.deleteTicketById(customer.id)}*/>Delete
+                            onClick={() => this.deleteCustomerById(customer.id)}>Delete
                         </button>
                     </td>
                 </tr>
@@ -108,7 +127,7 @@ class Customers extends Component {
             details = (
                 <div className="row">
                     <span className="text-info fa fa-user my-fa-13x mr-3"/>
-                    <form>
+                    <form onSubmit={event => this.updateCustomer(event)}>
                         <div className="float-right form-group">
                             <label htmlFor="updatedFirstName">First Name:</label>
                             <input type="text"
@@ -149,6 +168,9 @@ class Customers extends Component {
                                         className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
                                 </div>
                             </div>
+                            <button className="btn btn-outline-success" type="submit">Update</button>
+                            <button className="btn btn-outline-danger ml-2"
+                                    onClick={() => this.deleteCustomerById(this.state.customer.id)}>Delete</button>
                         </div>
                     </form>
                 </div>
@@ -181,7 +203,7 @@ class Customers extends Component {
                 <br/>
                 <h3>New Customer:</h3>
                 <NewCustomer/>
-                {/*<button className="btn btn-outline-success" onClick={this.showProps}>show props</button>*/}
+                <button className="btn btn-outline-success" onClick={this.showProps}>show props</button>
             </div>
         );
     }
@@ -197,7 +219,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchCustomers: () => dispatch(actions.fetchCustomers())
+        onFetchCustomers: () => dispatch(actions.fetchCustomers()),
+        onUpdateCustomer: customer => dispatch(actions.updateCustomer(customer)),
+        onDeleteCustomer: id => dispatch(actions.deleteCustomer(id))
     }
 };
 

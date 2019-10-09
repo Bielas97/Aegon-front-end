@@ -12,7 +12,9 @@ export {
 } from './tableAction'
 export {
     fetchCustomers,
-    addCustomer
+    addCustomer,
+    updateCustomer,
+    deleteCustomer
 } from './customerAction'
 export {
     fetchUsers,

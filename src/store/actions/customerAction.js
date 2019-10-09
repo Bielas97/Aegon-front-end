@@ -29,6 +29,22 @@ const addCustomerSuccess = action => {
     }
 };
 
+const updateCustomerSuccess = action => {
+    return {
+        type: actions.UPDATE_CUSTOMER_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
+    }
+};
+
+const deleteCustomerSuccess = action => {
+    return {
+        type: actions.DELETE_CUSTOMER_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
+    }
+};
+
 export const fetchCustomers = () => {
     return dispatch => {
         dispatch(customerActionStart());
@@ -58,6 +74,43 @@ export const addCustomer = customer => {
         })
             .then(response => {
                 dispatch(addCustomerSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(customerActionFail(error))
+            })
+    }
+};
+
+export const updateCustomer = customer => {
+    return dispatch => {
+        dispatch(customerActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.put("/customers", customer, {
+            headers: {
+                'Authorization': token
+            }
+        })
+            .then(response => {
+                dispatch(updateCustomerSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(customerActionFail(error))
+            })
+    }
+};
+
+export const deleteCustomer = id => {
+    return dispatch => {
+        dispatch(customerActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        const url = "/customers/".concat(id);
+        axios.delete(url, {
+            headers: {
+                'Authorization': token
+            }
+        })
+            .then(response => {
+                dispatch(deleteCustomerSuccess(response.data))
             })
             .catch(error => {
                 dispatch(customerActionFail(error))

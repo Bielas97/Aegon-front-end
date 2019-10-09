@@ -38,6 +38,22 @@ const addCustomerSuccess = (state, action) => {
     })
 };
 
+const updateCustomerSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp)
+    })
+};
+
+const deleteCustomerSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp)
+    })
+};
+
 const customersReducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.CUSTOMER_ACTION_START:
@@ -48,6 +64,10 @@ const customersReducer = (state = initialState, action) => {
             return customersActionFail(state, action);
         case actions.ADD_CUSTOMER_SUCCESS:
             return addCustomerSuccess(state, action);
+        case actions.UPDATE_CUSTOMER_SUCCESS:
+            return updateCustomerSuccess(state, action);
+        case actions.DELETE_CUSTOMER_SUCCESS:
+            return deleteCustomerSuccess(state, action);
         default:
             return state
     }
