@@ -1,13 +1,15 @@
 import * as actions from '../actions/actionTypes'
-import {updateObject} from "../../shared/utils";
+import {formatTimestamp, updateObject} from "../../shared/utils";
 
 const initialState = {
     customers: [],
     loading: false,
-    error: null
+    error: null,
+    message: '',
+    timestamp: ''
 };
 
-const fetchCustomersStart = (state, action) => {
+const customersActionStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true
@@ -21,21 +23,31 @@ const fetchCustomersSuccess = (state, action) => {
     })
 };
 
-const fetchCustomersFail = (state, action) => {
+const customersActionFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
         loading: false
     })
 };
 
+const addCustomerSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        message: action.message,
+        timestamp: formatTimestamp(action.timestamp)
+    })
+};
+
 const customersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.FETCH_CUSTOMERS_START:
-            return fetchCustomersStart(state, action);
+        case actions.CUSTOMER_ACTION_START:
+            return customersActionStart(state, action);
         case actions.FETCH_CUSTOMERS_SUCCESS:
             return fetchCustomersSuccess(state, action);
-        case actions.FETCH_CUSTOMERS_FAIL:
-            return fetchCustomersFail(state, action);
+        case actions.CUSTOMER_ACTION_FAIL:
+            return customersActionFail(state, action);
+        case actions.ADD_CUSTOMER_SUCCESS:
+            return addCustomerSuccess(state, action);
         default:
             return state
     }

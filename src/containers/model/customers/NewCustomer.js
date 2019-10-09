@@ -28,7 +28,7 @@ class NewCustomer extends Component {
     };
 
     componentDidMount() {
-        const numberOfCustomers = this.state.showTwoCustomersForm ? 2: 1;
+        const numberOfCustomers = this.state.showTwoCustomersForm ? 2 : 1;
         this.props.onFetchFreeTablesForUser(numberOfCustomers);
         this.setState({
             ...this.state,
@@ -38,11 +38,11 @@ class NewCustomer extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.state.showTwoCustomersForm !== prevState.showTwoCustomersForm) {
-            const numberOfCustomers = this.state.showTwoCustomersForm ? 2: 1;
+            const numberOfCustomers = this.state.showTwoCustomersForm ? 2 : 1;
             this.props.onFetchFreeTablesForUser(numberOfCustomers);
         }
         if (this.props.timestamp !== prevProps.timestamp) {
-            const numberOfCustomers = this.state.showTwoCustomersForm ? 2: 1;
+            const numberOfCustomers = this.state.showTwoCustomersForm ? 2 : 1;
             this.props.onFetchFreeTablesForUser(numberOfCustomers);
         }
         if (this.props.freeTablesForUser.length !== prevProps.freeTablesForUser.length) {
@@ -126,12 +126,62 @@ class NewCustomer extends Component {
         })
     };
 
-    showProps = () => {
-        console.log('show props', this.props)
+    clearState = () => {
+        this.setState({
+            ...this.state,
+            C1FirstName: '',
+            C1LastName: '',
+            C1KvAppearance: 0,
+            C1IsStudent: false,
+            C2FirstName: '',
+            C2LastName: '',
+            C2KvAppearance: '',
+            C2IsStudent: false,
+            kvTable: {},
+
+            freeTablesForUser: this.props.freeTablesForUser.map(table => table.name),
+            chosenTables: [],
+            showGroundFloor: true,
+            showFirstFloor: false,
+            showSecondFloor: false,
+
+            showTwoCustomersForm: false
+        })
     };
 
-    showState = () => {
-        console.log('show state', this.state)
+    onSubmitForm = event => {
+        event.preventDefault();
+        const customerOne = {
+            firstName: this.state.C1FirstName,
+            lastName: this.state.C1LastName,
+            kvAppearance: this.state.C1KvAppearance,
+            index: this.state.C1IsStudent,
+            kvTable: {
+                name: this.state.chosenTables[0]
+            }
+        };
+        this.props.onAddCustomer(customerOne);
+        if(this.state.showTwoCustomersForm) {
+            const customerTwo = {
+                firstName: this.state.C2FirstName,
+                lastName: this.state.C2LastName,
+                kvAppearance: this.state.C2KvAppearance,
+                index: this.state.C2IsStudent,
+                kvTable: {
+                    name: this.state.chosenTables[0]
+                }
+            };
+            this.props.onAddCustomer(customerTwo)
+        }
+        this.clearState();
+    };
+
+    isSubmitDisabled = () => {
+        if (this.state.showTwoCustomersForm) {
+            return (!this.state.C1FirstName || !this.state.C1LastName || this.state.C1KvAppearance <= 0) ||
+                (!this.state.C2FirstName || !this.state.C2LastName || this.state.C2KvAppearance <= 0) || this.state.chosenTables.length !== 1
+        }
+        return !this.state.C1FirstName.length || !this.state.C1LastName || this.state.C1KvAppearance <= 0 || this.state.chosenTables.length !== 1
     };
 
     render() {
@@ -145,7 +195,7 @@ class NewCustomer extends Component {
                        onChange={this.inputChangeHandler}
                        value={this.state.C1FirstName}
                 />
-                <label htmlFor="C1LastName">First Name:</label>
+                <label htmlFor="C1LastName">Last Name:</label>
                 <input type="text"
                        name="C1LastName"
                        id="C1LastName"
@@ -153,7 +203,7 @@ class NewCustomer extends Component {
                        onChange={this.inputChangeHandler}
                        value={this.state.C1LastName}
                 />
-                <label htmlFor="C1KvAppearance">First Name:</label>
+                <label htmlFor="C1KvAppearance">Kv appearance:</label>
                 <input type="number"
                        name="C1KvAppearance"
                        id="C1KvAppearance"
@@ -184,6 +234,9 @@ class NewCustomer extends Component {
                             className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
                     </div>
                 </div>
+                <label>Table:</label>
+                <h6>{this.state.chosenTables.join(",")}</h6>
+                {this.state.chosenTables.length > 1 ? <small className="text-danger">Choose only one table!</small> : null}
             </div>
         );
 
@@ -198,7 +251,7 @@ class NewCustomer extends Component {
                        onChange={this.inputChangeHandler}
                        value={this.state.C2FirstName}
                 />
-                <label htmlFor="C2LastName">First Name:</label>
+                <label htmlFor="C2LastName">Last Name:</label>
                 <input type="text"
                        name="C2LastName"
                        id="C2LastName"
@@ -206,7 +259,7 @@ class NewCustomer extends Component {
                        onChange={this.inputChangeHandler}
                        value={this.state.C2LastName}
                 />
-                <label htmlFor="C2KvAppearance">First Name:</label>
+                <label htmlFor="C2KvAppearance">Kv Appearance:</label>
                 <input type="number"
                        name="C2KvAppearance"
                        id="C2KvAppearance"
@@ -262,12 +315,14 @@ class NewCustomer extends Component {
                 <li className="nav-item">
                     <nav className={!this.state.showTwoCustomersForm ? 'nav-link active disabled' : 'nav-link'}
                          style={{cursor: 'pointer'}}
-                         onClick={this.switchToOneCustomer}>1 Customer</nav>
+                         onClick={this.switchToOneCustomer}>1 Customer
+                    </nav>
                 </li>
                 <li className="nav-item">
                     <nav className={this.state.showTwoCustomersForm ? 'nav-link active disabled' : 'nav-link'}
                          style={{cursor: 'pointer'}}
-                         onClick={this.switchToTwoCustomers}>2 Customers</nav>
+                         onClick={this.switchToTwoCustomers}>2 Customers
+                    </nav>
                 </li>
             </ul>
         );
@@ -299,9 +354,14 @@ class NewCustomer extends Component {
             <div>
                 <div className="row">
                     <div className="col-6">
-                        <form>
+                        <form onSubmit={event => this.onSubmitForm(event)}>
                             {C1Form}
                             {this.state.showTwoCustomersForm ? C2Form : null}
+                            <button
+                                className="btn btn-outline-success submitButton"
+                                type="submit"
+                                disabled={this.isSubmitDisabled()}>Submit
+                            </button>
                         </form>
                     </div>
                     <div className="col-6">
@@ -311,8 +371,6 @@ class NewCustomer extends Component {
                         {floorNavigation}
                     </div>
                 </div>
-                <button className="btn btn-info" onClick={this.showProps}>show props</button>
-                <button className="btn btn-info" onClick={this.showState}>show state</button>
             </div>
         );
     }
@@ -328,7 +386,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchFreeTablesForUser: numberOfPeopleRequestingFreePlaces => dispatch(actions.fetchFreeTablesForUser(numberOfPeopleRequestingFreePlaces))
+        onFetchFreeTablesForUser: numberOfPeopleRequestingFreePlaces => dispatch(actions.fetchFreeTablesForUser(numberOfPeopleRequestingFreePlaces)),
+        onAddCustomer: customer => dispatch(actions.addCustomer(customer))
     }
 };
 

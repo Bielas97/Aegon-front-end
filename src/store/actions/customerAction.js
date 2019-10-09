@@ -1,9 +1,9 @@
 import * as actions from './actionTypes';
 import axios from '../../axios-api';
 
-const fetchStart = () => {
+const customerActionStart = () => {
     return {
-        type: actions.FETCH_CUSTOMERS_START
+        type: actions.CUSTOMER_ACTION_START
     }
 };
 
@@ -14,16 +14,24 @@ const fetchSuccess = customers => {
     }
 };
 
-const fetchFail = error => {
+const customerActionFail = error => {
     return {
-        type: actions.FETCH_CUSTOMERS_FAIL,
+        type: actions.CUSTOMER_ACTION_FAIL,
         error: error
+    }
+};
+
+const addCustomerSuccess = action => {
+    return {
+        type: actions.ADD_CUSTOMER_SUCCESS,
+        message: action.message,
+        timestamp: action.timestamp
     }
 };
 
 export const fetchCustomers = () => {
     return dispatch => {
-        dispatch(fetchStart());
+        dispatch(customerActionStart());
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get("/customers", {
             headers: {
@@ -34,7 +42,25 @@ export const fetchCustomers = () => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(customerActionFail(error));
+            })
+    }
+};
+
+export const addCustomer = customer => {
+    return dispatch => {
+        dispatch(customerActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.post("/customers", customer, {
+            headers: {
+                'Authorization': token
+            }
+        })
+            .then(response => {
+                dispatch(addCustomerSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(customerActionFail(error))
             })
     }
 };

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import * as actions from '../../../store/actions';
 import axios from '../../../axios-api'
 import NewCustomer from "./NewCustomer";
+import {NotificationManager} from "react-notifications";
 
 class Customers extends Component {
 
@@ -18,6 +19,18 @@ class Customers extends Component {
 
     componentDidMount() {
         this.props.onFetchCustomers();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.msg !== this.props.msg || prevProps.timestamp !== this.props.timestamp) {
+            this.props.onFetchCustomers();
+            NotificationManager.success(this.props.msg, this.props.timestamp);
+        }
+        if (this.props.error !== null && prevProps.error !== this.props.error) {
+            if (this.props.error.data !== null) {
+                NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+            }
+        }
     }
 
     inputChangeHandler = event => {
@@ -176,7 +189,9 @@ class Customers extends Component {
 
 const mapStateToProps = state => {
     return {
-        customers: state.customers.customers
+        customers: state.customers.customers,
+        msg: state.customers.message,
+        timestamp: state.customers.timestamp
     }
 };
 

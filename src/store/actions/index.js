@@ -11,7 +11,8 @@ export {
     fetchTablesWithoutTicket
 } from './tableAction'
 export {
-    fetchCustomers
+    fetchCustomers,
+    addCustomer
 } from './customerAction'
 export {
     fetchUsers,
