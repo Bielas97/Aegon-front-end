@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {TablePagination} from 'react-pagination-table';
 
 import * as actions from '../../../store/actions';
 import axios from '../../../axios-api'
@@ -73,7 +74,7 @@ class Customers extends Component {
     };
 
     deleteCustomerById = id => {
-        this.props.onDeleteCustomer(id)
+        this.props.onDeleteCustomer(id);
         this.setState({
             ...this.state,
             customer: null
@@ -88,13 +89,7 @@ class Customers extends Component {
             lastName: this.state.updatedLastName,
             index: this.state.updatedStudent
         };
-        console.log(updatedCustomer);
         this.props.onUpdateCustomer(updatedCustomer);
-    };
-
-    showProps = () => {
-        console.log('this props', this.props);
-        console.log('this state', this.state);
     };
 
     render() {
@@ -114,7 +109,7 @@ class Customers extends Component {
                                 onClick={() => this.getCustomerById(customer.id)}>Details
                         </button>
                         <button className="btn btn-outline-danger ml-2"
-                            onClick={() => this.deleteCustomerById(customer.id)}>Delete
+                                onClick={() => this.deleteCustomerById(customer.id)}>Delete
                         </button>
                     </td>
                 </tr>
@@ -170,12 +165,15 @@ class Customers extends Component {
                             </div>
                             <button className="btn btn-outline-success" type="submit">Update</button>
                             <button className="btn btn-outline-danger ml-2"
-                                    onClick={() => this.deleteCustomerById(this.state.customer.id)}>Delete</button>
+                                    onClick={() => this.deleteCustomerById(this.state.customer.id)}>Delete
+                            </button>
                         </div>
                     </form>
                 </div>
             )
         }
+
+        const headers = ["#", "First Name", "Last Name", "Student", "Table"];
 
         return (
 
@@ -203,7 +201,20 @@ class Customers extends Component {
                 <br/>
                 <h3>New Customer:</h3>
                 <NewCustomer/>
-                <button className="btn btn-outline-success" onClick={this.showProps}>show props</button>
+
+                <hr/>
+                <hr/>
+
+                <TablePagination
+                    title="paination title"
+                    subtitle="subtitile"
+                    headers={headers}
+                    data={this.props.customers}
+                    columns="id.firstName.lastName.table.index"
+                    perPageItemCount={ 5 }
+                    totalCount={ this.props.customers.length }
+                    arrayOption={ [["size", 'all', ' ']] }
+                />
             </div>
         );
     }

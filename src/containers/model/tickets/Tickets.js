@@ -84,8 +84,6 @@ class Tickets extends Component {
 
     updateTicket = event => {
         event.preventDefault();
-        console.log('shortname', this.state.updatedShortName);
-        console.log('fullname', this.state.updatedFullName);
         const ticket = {
             id: this.state.ticket.id,
             shortName: this.state.updatedShortName,

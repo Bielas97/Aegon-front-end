@@ -45,10 +45,10 @@ const cards = props => {
                       fontAwesomeIcon="fa fa-line-chart"/>
             </div>
             <div className="col-md-4">
-                <Card link="/"
+                <Card link="/customers"
                       stylename="dark"
                       name="Accounted customers"
-                      subname={props.freeTables}
+                      subname={props.accountedCustomers}
                       fontAwesomeIcon="fa fa-dashboard"/>
             </div>
             <div className="col-md-4">

@@ -103,7 +103,6 @@ class RegisterForm extends Component {
             tickets: this.state.userTickets,
             numberOfTickets: this.state.userNumberOfTickets.join()
         };
-        //console.log('user', user)
         this.props.onRegister(user);
         this.clearState(event);
     };

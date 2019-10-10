@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as actions from '../../../store/actions';
 
-class CustomersTable extends Component {
+class CustomersTableHomePage extends Component {
 
     state = {
         isMouseInside: false
@@ -13,12 +13,6 @@ class CustomersTable extends Component {
         this.props.onFetchCustomers()
     }
 
-    mouseEnter = () => {
-        this.setState({
-            ...this.state,
-            isMouseInside: true
-        })
-    };
 
     render() {
 
@@ -54,6 +48,7 @@ class CustomersTable extends Component {
                     </thead>
                     {tbody}
                 </table>
+
             </div>
         )
     }
@@ -72,4 +67,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomersTableHomePage);

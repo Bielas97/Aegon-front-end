@@ -3,7 +3,7 @@ import * as actions from '../../store/actions/index';
 import {connect} from "react-redux";
 import KvTables from "../model/kv-tables/KvTables";
 import Cards from "../../components/UI/cards/Cards";
-import CustomersTable from "../model/customers/CustomersTable";
+import CustomersTableHomePage from "../model/customers/CustomersTableHomePage";
 import './Aegon.css';
 
 class Aegon extends Component {
@@ -16,7 +16,12 @@ class Aegon extends Component {
         this.props.onFetchFreeTablesForUser(1);
         //this.props.onFetchTablesWithoutTicket();
         this.props.onFetchFreePlaces();
+        this.props.onFetchCustomers();
     }
+
+    showprops = () => {
+        console.log(this.props)
+    };
 
     render() {
         return (
@@ -24,6 +29,7 @@ class Aegon extends Component {
                 <Cards
                     isAdmin={this.props.admin}
                     freeTables={this.props.noFreeTables}
+                    accountedCustomers={this.props.customers.length}
                     tickets={this.props.noTickets}
                     users={this.props.noUsers}
                     freePlaces={this.props.noFreePlaces}
@@ -39,9 +45,10 @@ class Aegon extends Component {
                         <div className="d-flex justify-content-center">
                             <h4>Customers:</h4>
                         </div>
-                        <CustomersTable/>
+                        <CustomersTableHomePage/>
                     </div>
                 </div>
+                <button className="btn btn-outline-danger" onClick={this.showprops}>show props</button>
             </div>
         )
     }
@@ -54,7 +61,8 @@ const mapStateToProps = state => {
         noFreeTables: state.tables.freeTablesForUser.length,
         noTickets: state.tickets.tickets.length,
         noUsers: state.users.users.length,
-        noFreePlaces: state.tables.freePlaces
+        noFreePlaces: state.tables.freePlaces,
+        customers: state.customers.customers
     }
 };
 
@@ -64,6 +72,7 @@ const mapDispatchToProps = dispatch => {
         onFetchTickets: () => dispatch(actions.fetchTickets()),
         onFetchUsers: () => dispatch(actions.fetchUsers()),
         onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces()),
+        onFetchCustomers: () => dispatch(actions.fetchCustomers())
     }
 };
 

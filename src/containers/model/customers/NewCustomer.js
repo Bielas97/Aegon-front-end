@@ -371,6 +371,7 @@ class NewCustomer extends Component {
                         {floorNavigation}
                     </div>
                 </div>
+                <br/>
             </div>
         );
     }

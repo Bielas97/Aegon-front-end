@@ -95,8 +95,6 @@ export const updateTicket = ticket => {
                 dispatch(updateTicketSuccess(response.data))
             })
             .catch(error => {
-                console.log('error', error);
-                console.log('error response', error.response);
                 dispatch(ticketActionFail(error.response))
             })
     }

@@ -29,6 +29,7 @@ const navigationItems = props => {
                     <ul className="navbar-nav mr-auto">
                         <NavigationItem link="/" name="Home"/>
                         <NavigationItem link="/tables" name="Tables"/>
+                        <NavigationItem link="/customers" name="Customers"/>
                     </ul>
                     <ul className="navbar-nav">
                         <LogoutButton isAuth={props.isAuth}>logout</LogoutButton>

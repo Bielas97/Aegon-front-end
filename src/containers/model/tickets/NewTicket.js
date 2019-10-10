@@ -131,14 +131,6 @@ class NewTicket extends Component {
         this.clearState();
     };
 
-    checkState = () => {
-        console.log('this.state', this.state)
-    };
-
-    checkProps = () => {
-        console.log(this.props, this.props)
-    };
-
     isSubmitDisabled = () => {
         return !this.state.ticketFullName || !this.state.ticketShortName || this.state.chosenTables.length <= 0
     };
@@ -230,8 +222,7 @@ class NewTicket extends Component {
                         </ul>
                     </div>
                 </div>
-                <button className="btn btn-outline-info" onClick={this.checkState}>check state</button>
-                <button className="btn btn-outline-info" onClick={this.checkProps}>check props</button>
+                <br/>
             </div>
         );
     }
