@@ -40,7 +40,6 @@ export const auth = (login, password) => {
         axios.post('/login', authData)
             .then(response => {
                 sessionStorage.setItem("token", response.data.token);
-                sessionStorage.setItem("role", response.data.role);
                 dispatch(authSuccess(response.data.token, response.data.role));
             })
             .catch(err => {
@@ -52,9 +51,11 @@ export const auth = (login, password) => {
 export const authCheckState = () => {
     return dispatch => {
         const token = sessionStorage.getItem("token");
-        const role = sessionStorage.getItem("role");
-        if(token && role){
-            dispatch(authSuccess(token, role))
+        const jwtData = token.split('.')[1]
+        const decodedJwtJsonData = window.atob(jwtData)
+        const decodedJwtData = JSON.parse(decodedJwtJsonData)
+        if(token && decodedJwtData.roles){
+            dispatch(authSuccess(token, decodedJwtData.roles))
         } else {
             dispatch(logout())
         }

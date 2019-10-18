@@ -14,7 +14,7 @@ import Tickets from "./containers/model/tickets/Tickets";
 import RegisterForm from "./containers/register-form/RegisterForm";
 import Customers from "./containers/model/customers/Customers";
 import {NotificationContainer} from "react-notifications";
-import CustomersTable from "./containers/model/customers/CustomersTableHomePage";
+import NewCustomer from "./containers/model/customers/NewCustomer";
 
 class App extends Component {
 
@@ -34,7 +34,13 @@ class App extends Component {
 
 
         if (this.props.isAuthenticated) {
-            if (sessionStorage.getItem('role') === 'ROLE_ADMIN') {
+            const token = sessionStorage.getItem("token");
+            const jwtData = token.split('.')[1]
+            const decodedJwtJsonData = window.atob(jwtData)
+            const decodedJwtData = JSON.parse(decodedJwtJsonData)
+            const isAdmin = decodedJwtData.roles === "ROLE_ADMIN";
+
+            if (isAdmin) {
                 routes = (
                     <Auxiliary>
                         <Switch>
@@ -46,6 +52,7 @@ class App extends Component {
                             <Route path="/tickets" exact component={Tickets}/>
                             <Route path="/register" exact component={RegisterForm}/>
                             <Route path="/customers" exact component={Customers}/>
+                            <Route path="/customers-new" exact component={NewCustomer}/>
                             <Redirect to="/"/>
                         </Switch>
                     </Auxiliary>
@@ -59,6 +66,7 @@ class App extends Component {
                             <Route path="/logout" exact component={Logout}/>
                             <Route path="/tables" exact component={KvTables}/>
                             <Route path="/customers" exact component={Customers}/>
+                            <Route path="/customers-new" exact component={NewCustomer}/>
                             <Redirect to="/"/>
                         </Switch>
                     </Auxiliary>

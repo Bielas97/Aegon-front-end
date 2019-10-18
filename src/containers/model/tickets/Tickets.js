@@ -6,6 +6,8 @@ import '../users/Users.css';
 import {NotificationManager} from "react-notifications";
 import {updateObject} from "../../../shared/utils";
 import NewTicket from "./NewTicket";
+import Spinner from "../../../components/UI/spinner/Spinner";
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
 
 class Tickets extends Component {
 
@@ -16,7 +18,8 @@ class Tickets extends Component {
         updatedFullName: null,
         updatedUni: null,
         updatedTables: [],
-        clearDetails: false
+        clearDetails: false,
+        loading: false
     };
 
     componentDidMount() {
@@ -50,6 +53,10 @@ class Tickets extends Component {
     };
 
     getTicketById = id => {
+        this.setState({
+            ...this.state,
+            loading: true
+        });
         const url = '/tickets/'.concat(id);
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get(url, {
@@ -64,7 +71,8 @@ class Tickets extends Component {
                     updatedShortName: response.data.shortName,
                     updatedFullName: response.data.fullName,
                     updatedUni: response.data.uni,
-                    updatedTables: response.data.tables
+                    updatedTables: response.data.tables,
+                    loading: false
                 })
             })
             .catch(error => {
@@ -119,7 +127,7 @@ class Tickets extends Component {
         });
 
         let details = null;
-        if (this.state.ticket) {
+        if (this.state.ticket && !this.state.loading) {
             const tables = this.state.updatedTables.map(kvTable => kvTable['name']).join(",");
             details = (
                 <div className="row">
@@ -172,6 +180,13 @@ class Tickets extends Component {
                         </div>
                     </form>
                 </div>
+            )
+        }
+        if(this.state.loading){
+            details = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
             )
         }
         if (this.state.clearDetails) {

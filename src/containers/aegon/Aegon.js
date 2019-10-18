@@ -14,14 +14,9 @@ class Aegon extends Component {
             this.props.onFetchUsers();
         }
         this.props.onFetchFreeTablesForUser(1);
-        //this.props.onFetchTablesWithoutTicket();
         this.props.onFetchFreePlaces();
         this.props.onFetchCustomers();
     }
-
-    showprops = () => {
-        console.log(this.props)
-    };
 
     render() {
         return (
@@ -48,7 +43,6 @@ class Aegon extends Component {
                         <CustomersTableHomePage/>
                     </div>
                 </div>
-                <button className="btn btn-outline-danger" onClick={this.showprops}>show props</button>
             </div>
         )
     }

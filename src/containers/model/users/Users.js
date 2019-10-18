@@ -4,6 +4,8 @@ import * as actions from '../../../store/actions';
 import './Users.css'
 import axios from '../../../axios-api'
 import {NotificationManager} from "react-notifications";
+import Spinner from "../../../components/UI/spinner/Spinner";
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
 
 class Users extends Component {
 
@@ -15,7 +17,8 @@ class Users extends Component {
         updatedNumberOfTickets: null,
         updatedTickets: [],
         adminPassword: null,
-        newUserPassword: null
+        newUserPassword: null,
+        loading: false
     };
 
     componentDidMount() {
@@ -42,6 +45,10 @@ class Users extends Component {
     };
 
     getUserById = id => {
+        this.setState({
+            ...this.state,
+            loading: true
+        });
         const url = '/users/'.concat(id);
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get(url, {
@@ -56,7 +63,8 @@ class Users extends Component {
                     updatedUsername: response.data.username,
                     updatedRole: response.data.role,
                     updatedNumberOfTickets: response.data.numberOfTickets,
-                    updatedTickets: response.data.tickets
+                    updatedTickets: response.data.tickets,
+                    loading: false
                 })
             })
             .catch(error => {
@@ -88,6 +96,10 @@ class Users extends Component {
         if (this.state.tickets !== null) {
             return this.state.user.tickets.map(ticket => ticket.shortName).join(",")
         }
+    };
+
+    checkState = () => {
+        console.log(this.state)
     };
 
     render() {
@@ -123,8 +135,15 @@ class Users extends Component {
                 </div>;
         }
 
+        if (this.state.loading) {
+            details = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
 
-        if (this.state.user) {
+        if (this.state.user && !this.state.loading) {
             const iconStyle = this.state.user.role === 'ADMIN' ? "float-left text-info fa fa-user-secret my-fa-13x mr-3" : "float-left text-info fa fa-user my-fa-13x mr-3";
             details = (
                 <div className="row">
@@ -174,28 +193,39 @@ class Users extends Component {
             )
         }
 
+        let usersComponent = (
+            <div className="row">
+                <div className="col-6">
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Tickets</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        {tbody}
+                    </table>
+                </div>
+                <div className="col-6">
+                    {details}
+                </div>
+            </div>
+        );
+        if(this.props.loading){
+            usersComponent = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
+
         return (
             <div className="container-fluid">
                 <br/>
-                <div className="row">
-                    <div className="col-6">
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Tickets</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-                            {tbody}
-                        </table>
-                    </div>
-                    <div className="col-6">
-                        {details}
-                    </div>
-                </div>
+                {usersComponent}
             </div>
         );
     }

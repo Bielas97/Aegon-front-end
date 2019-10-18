@@ -4,6 +4,9 @@ import * as actions from '../../../store/actions/index'
 import Ground from "../../../components/UI/map-vector-graphics/Ground";
 import FirstFloor from "../../../components/UI/map-vector-graphics/FirstFloor";
 import SecondFloor from "../../../components/UI/map-vector-graphics/SecondFloor";
+import Spinner from "../../../components/UI/spinner/Spinner";
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
+import {NotificationManager} from "react-notifications";
 
 class NewCustomer extends Component {
 
@@ -50,6 +53,14 @@ class NewCustomer extends Component {
                 ...this.state,
                 freeTablesForUser: this.props.freeTablesForUser.map(table => table.name)
             })
+        }
+        if (prevProps.msg !== this.props.msg || prevProps.timestamp !== this.props.timestamp) {
+            NotificationManager.success(this.props.msg, this.props.timestamp);
+        }
+        if (this.props.error !== null && prevProps.error !== this.props.error) {
+            if (this.props.error.data !== null) {
+                NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+            }
         }
     }
 
@@ -350,8 +361,10 @@ class NewCustomer extends Component {
             </ul>
         );
 
-        return (
+        let newCustomerComponent = (
             <div>
+                <br/>
+                <h3>New Customers:</h3>
                 <div className="row">
                     <div className="col-6">
                         <form onSubmit={event => this.onSubmitForm(event)}>
@@ -374,6 +387,19 @@ class NewCustomer extends Component {
                 <br/>
             </div>
         );
+        if(this.props.loading){
+            newCustomerComponent = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
+
+        return (
+            <div className="container-fluid">
+                {newCustomerComponent}
+            </div>
+        );
     }
 }
 
@@ -381,7 +407,8 @@ const mapStateToProps = state => {
     return {
         freeTablesForUser: state.tables.freeTablesForUser,
         msg: state.customers.message,
-        timestamp: state.customers.timestamp
+        timestamp: state.customers.timestamp,
+        loading: state.customers.loading
     }
 };
 

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {TablePagination} from 'react-pagination-table';
 
 import * as actions from '../../../store/actions';
 import axios from '../../../axios-api'
-import NewCustomer from "./NewCustomer";
 import {NotificationManager} from "react-notifications";
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
+import Spinner from "../../../components/UI/spinner/Spinner";
 
 class Customers extends Component {
 
@@ -15,7 +15,8 @@ class Customers extends Component {
 
         updatedFirstName: '',
         updatedLastName: '',
-        updatedStudent: true
+        updatedStudent: true,
+        loading: false
     };
 
     componentDidMount() {
@@ -49,6 +50,10 @@ class Customers extends Component {
     };
 
     getCustomerById = id => {
+        this.setState({
+            ...this.state,
+            loading: true
+        });
         const url = '/customers/' + id;
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.get(url, {
@@ -62,7 +67,8 @@ class Customers extends Component {
                     customer: response.data,
                     updatedFirstName: response.data.firstName,
                     updatedLastName: response.data.lastName,
-                    updatedStudent: response.data.index
+                    updatedStudent: response.data.index,
+                    loading: false
                 })
             })
             .catch(error => {
@@ -118,7 +124,7 @@ class Customers extends Component {
         });
 
         let details = null;
-        if (this.state.customer) {
+        if (this.state.customer && !this.state.loading) {
             details = (
                 <div className="row">
                     <span className="text-info fa fa-user my-fa-13x mr-3"/>
@@ -172,49 +178,48 @@ class Customers extends Component {
                 </div>
             )
         }
+        if(this.state.loading){
+            details = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
 
-        const headers = ["#", "First Name", "Last Name", "Student", "Table"];
+        let customersComponent = (
+            <div className="row">
+                <div className="col-6">
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Table</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        {tbody}
+                    </table>
+                </div>
+                <div className="col-6">
+                    {details}
+                </div>
+            </div>
+        );
+        if (this.props.loading) {
+            customersComponent = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
 
         return (
-
             <div className="container-fluid">
                 <br/>
-                <div className="row">
-                    <div className="col-6">
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Student</th>
-                                <th scope="col">Table</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-                            {tbody}
-                        </table>
-                    </div>
-                    <div className="col-6">
-                        {details}
-                    </div>
-                </div>
+                {customersComponent}
                 <br/>
-                <h3>New Customer:</h3>
-                <NewCustomer/>
-
-                <hr/>
-                <hr/>
-
-                <TablePagination
-                    title="paination title"
-                    subtitle="subtitile"
-                    headers={headers}
-                    data={this.props.customers}
-                    columns="id.firstName.lastName.table.index"
-                    perPageItemCount={ 5 }
-                    totalCount={ this.props.customers.length }
-                    arrayOption={ [["size", 'all', ' ']] }
-                />
             </div>
         );
     }
@@ -224,7 +229,8 @@ const mapStateToProps = state => {
     return {
         customers: state.customers.customers,
         msg: state.customers.message,
-        timestamp: state.customers.timestamp
+        timestamp: state.customers.timestamp,
+        loading: state.customers.loading
     }
 };
 

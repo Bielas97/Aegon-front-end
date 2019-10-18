@@ -5,6 +5,8 @@ import './RegisterForm.css';
 import {NotificationManager} from 'react-notifications';
 import errorHandler from "../../hoc/error-handler/ErrorHandler";
 import axios from '../../axios-api';
+import Backdrop from "../../components/UI/backdrop/Backdrop";
+import Spinner from "../../components/UI/spinner/Spinner";
 
 class RegisterForm extends Component {
     state = {
@@ -289,26 +291,36 @@ class RegisterForm extends Component {
             </div>
         );
 
+        let registerComponent = (
+            <div className="row">
+                <div className="col-6 vl">
+                    <div className="text-center">
+                        <h3>Register Admin:</h3>
+                    </div>
+                    <br/>
+                    {adminForm}
+                </div>
+                <div className="col-6">
+                    <div className="text-center">
+                        <h3>Register User:</h3>
+                        <br/>
+                        {userForm}
+                    </div>
+                </div>
+            </div>
+        );
+        if(this.props.loading){
+            registerComponent = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
 
         return (
             <div className="container-fluid">
                 <br/>
-                <div className="row">
-                    <div className="col-6 vl">
-                        <div className="text-center">
-                            <h3>Register Admin:</h3>
-                        </div>
-                        <br/>
-                        {adminForm}
-                    </div>
-                    <div className="col-6">
-                        <div className="text-center">
-                            <h3>Register User:</h3>
-                            <br/>
-                            {userForm}
-                        </div>
-                    </div>
-                </div>
+                {registerComponent}
             </div>
         )
     }

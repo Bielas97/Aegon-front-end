@@ -4,6 +4,8 @@ import * as actions from '../../../store/actions/index'
 import Ground from "../../../components/UI/map-vector-graphics/Ground";
 import FirstFloor from "../../../components/UI/map-vector-graphics/FirstFloor";
 import SecondFloor from "../../../components/UI/map-vector-graphics/SecondFloor";
+import Spinner from "../../../components/UI/spinner/Spinner";
+import Backdrop from "../../../components/UI/backdrop/Backdrop";
 
 class NewTicket extends Component {
 
@@ -135,94 +137,106 @@ class NewTicket extends Component {
         return !this.state.ticketFullName || !this.state.ticketShortName || this.state.chosenTables.length <= 0
     };
 
+
     render() {
-        return (
-            <div>
-                <div className="row">
-                    <div className="col-6">
-                        <form onSubmit={event => this.submitNewTicketForm(event)}>
-                            <div className="form-group">
-                                <label htmlFor="ticketShortName">Short name:</label>
-                                <input type="text"
-                                       name="ticketShortName"
-                                       id="ticketShortName"
-                                       className="form-control"
-                                       value={this.state.ticketShortName}
-                                       onChange={this.inputChangeHandler}
-                                />
-                                <label htmlFor="ticketFullName">Full name:</label>
-                                <input type="text"
-                                       name="ticketFullName"
-                                       id="ticketFullName"
-                                       className="form-control"
-                                       value={this.state.ticketFullName}
-                                       onChange={this.inputChangeHandler}
-                                />
-                                <label htmlFor="updatedUni">Is University:</label>
-                                <div className="row offset-1">
-                                    <div className="radio">
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name="ticketUni"
-                                                value={true}
-                                                checked={this.state.ticketUni}
-                                                onChange={this.boolInputHandler}/><span
-                                            className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
-                                    </div>
-                                    <div className="radio">
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name="ticketUni"
-                                                value={false}
-                                                checked={!this.state.ticketUni}
-                                                onChange={this.boolInputHandler}/><span
-                                            className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
-                                    </div>
+        let newTicketComponent = (
+            <div className="row">
+                <div className="col-6">
+                    <form onSubmit={event => this.submitNewTicketForm(event)}>
+                        <div className="form-group">
+                            <label htmlFor="ticketShortName">Short name:</label>
+                            <input type="text"
+                                   name="ticketShortName"
+                                   id="ticketShortName"
+                                   className="form-control"
+                                   value={this.state.ticketShortName}
+                                   onChange={this.inputChangeHandler}
+                            />
+                            <label htmlFor="ticketFullName">Full name:</label>
+                            <input type="text"
+                                   name="ticketFullName"
+                                   id="ticketFullName"
+                                   className="form-control"
+                                   value={this.state.ticketFullName}
+                                   onChange={this.inputChangeHandler}
+                            />
+                            <label htmlFor="updatedUni">Is University:</label>
+                            <div className="row offset-1">
+                                <div className="radio">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="ticketUni"
+                                            value={true}
+                                            checked={this.state.ticketUni}
+                                            onChange={this.boolInputHandler}/><span
+                                        className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
                                 </div>
-                                <label>Tables:</label>
-                                <h6>{this.state.chosenTables.join(",")}</h6>
+                                <div className="radio">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="ticketUni"
+                                            value={false}
+                                            checked={!this.state.ticketUni}
+                                            onChange={this.boolInputHandler}/><span
+                                        className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
+                                </div>
                             </div>
-                            <button className="btn btn-outline-success submitButton" type="submit" disabled={this.isSubmitDisabled()}>Submit</button>
-                        </form>
-                    </div>
-                    <div className="col-6">
-                        {this.state.showGroundFloor ? <Ground
-                            onTableClick={id => this.tableClicked(id)}
-                            freeTables={this.state.tablesWithoutTicket}
-                        /> : null}
-                        {this.state.showFirstFloor ? <FirstFloor
-                            onTableClick={id => this.tableClicked(id)}
-                            freeTables={this.state.tablesWithoutTicket}
-                        /> : null}
-                        {this.state.showSecondFloor ? <SecondFloor
-                            onTableClick={id => this.tableClicked(id)}
-                            freeTables={this.state.tablesWithoutTicket}
-                        /> : null}
-                        <ul className="nav nav-tabs">
-                            <li className="nav-item">
-                                <nav className={this.state.showGroundFloor ? 'nav-link active disabled' : 'nav-link'}
-                                     style={{cursor: 'pointer'}}
-                                     onClick={this.switchToGroundFloor}>Ground Floor
-                                </nav>
-                            </li>
-                            <li className="nav-item">
-                                <nav className={this.state.showFirstFloor ? 'nav-link active disabled' : 'nav-link'}
-                                     style={{cursor: 'pointer'}}
-                                     onClick={this.switchToFirstFloor}>First Floor
-                                </nav>
-                            </li>
-                            <li className="nav-item">
-                                <nav className={this.state.showSecondFloor ? 'nav-link active disabled' : 'nav-link'}
-                                     style={{cursor: 'pointer'}}
-                                     onClick={this.switchToSecondFloor}>Second Floor
-                                </nav>
-                            </li>
-                        </ul>
-                    </div>
+                            <label>Tables:</label>
+                            <h6>{this.state.chosenTables.join(",")}</h6>
+                        </div>
+                        <button className="btn btn-outline-success submitButton" type="submit" disabled={this.isSubmitDisabled()}>Submit</button>
+                    </form>
+                </div>
+                <div className="col-6">
+                    {this.state.showGroundFloor ? <Ground
+                        onTableClick={id => this.tableClicked(id)}
+                        freeTables={this.state.tablesWithoutTicket}
+                    /> : null}
+                    {this.state.showFirstFloor ? <FirstFloor
+                        onTableClick={id => this.tableClicked(id)}
+                        freeTables={this.state.tablesWithoutTicket}
+                    /> : null}
+                    {this.state.showSecondFloor ? <SecondFloor
+                        onTableClick={id => this.tableClicked(id)}
+                        freeTables={this.state.tablesWithoutTicket}
+                    /> : null}
+                    <ul className="nav nav-tabs">
+                        <li className="nav-item">
+                            <nav className={this.state.showGroundFloor ? 'nav-link active disabled' : 'nav-link'}
+                                 style={{cursor: 'pointer'}}
+                                 onClick={this.switchToGroundFloor}>Ground Floor
+                            </nav>
+                        </li>
+                        <li className="nav-item">
+                            <nav className={this.state.showFirstFloor ? 'nav-link active disabled' : 'nav-link'}
+                                 style={{cursor: 'pointer'}}
+                                 onClick={this.switchToFirstFloor}>First Floor
+                            </nav>
+                        </li>
+                        <li className="nav-item">
+                            <nav className={this.state.showSecondFloor ? 'nav-link active disabled' : 'nav-link'}
+                                 style={{cursor: 'pointer'}}
+                                 onClick={this.switchToSecondFloor}>Second Floor
+                            </nav>
+                        </li>
+                    </ul>
                 </div>
                 <br/>
+            </div>
+        );
+
+        if(this.props.loading){
+            newTicketComponent = (
+                <Backdrop show>
+                    <Spinner/>
+                </Backdrop>
+            )
+        }
+        return (
+            <div>
+                {newTicketComponent}
             </div>
         );
     }
@@ -232,7 +246,8 @@ const mapStateToProps = state => {
     return {
         tablesWithoutTicket: state.tables.tablesWithoutTicket,
         msg: state.tickets.message,
-        timestamp: state.tickets.timestamp
+        timestamp: state.tickets.timestamp,
+        loading: state.tickets.loading
     }
 };
 
