@@ -22,7 +22,7 @@ export const authFail = (error) => {
     }
 };
 
-export const logout = () =>{
+export const logout = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('role');
     return {
@@ -51,11 +51,13 @@ export const auth = (login, password) => {
 export const authCheckState = () => {
     return dispatch => {
         const token = sessionStorage.getItem("token");
-        const jwtData = token.split('.')[1]
-        const decodedJwtJsonData = window.atob(jwtData)
-        const decodedJwtData = JSON.parse(decodedJwtJsonData)
-        if(token && decodedJwtData.roles){
-            dispatch(authSuccess(token, decodedJwtData.roles))
+        if (token) {
+            const jwtData = token.split('.')[1]
+            const decodedJwtJsonData = window.atob(jwtData)
+            const decodedJwtData = JSON.parse(decodedJwtJsonData)
+            if (decodedJwtData.roles) {
+                dispatch(authSuccess(token, decodedJwtData.roles))
+            }
         } else {
             dispatch(logout())
         }

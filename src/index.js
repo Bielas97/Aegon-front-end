@@ -17,7 +17,8 @@ import customersReducer from "./store/reducers/customerReducer";
 import usersReducer from "./store/reducers/usersReducer";
 import ticketReducer from "./store/reducers/ticketReducer";
 
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : null;
+// FOR DEVELOPMENT
+// const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : null;
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -27,7 +28,7 @@ const rootReducer = combineReducers({
     tickets: ticketReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers(
+const store = createStore(rootReducer, compose(
     applyMiddleware(thunk)
 ));
 
