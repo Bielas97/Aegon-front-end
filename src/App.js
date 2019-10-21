@@ -35,11 +35,10 @@ class App extends Component {
 
         if (this.props.isAuthenticated) {
             const token = sessionStorage.getItem("token");
-            const jwtData = token.split('.')[1]
-            const decodedJwtJsonData = window.atob(jwtData)
-            const decodedJwtData = JSON.parse(decodedJwtJsonData)
+            const jwtData = token.split('.')[1];
+            const decodedJwtJsonData = window.atob(jwtData);
+            const decodedJwtData = JSON.parse(decodedJwtJsonData);
             const isAdmin = decodedJwtData.roles === "ROLE_ADMIN";
-
             if (isAdmin) {
                 routes = (
                     <Auxiliary>

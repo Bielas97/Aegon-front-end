@@ -1,14 +1,13 @@
 import React from 'react';
 import logo from '../../../assets/logo.png';
 
-import classes from './Toolbar.css';
 import NavigationItems from "../navigation-items/NavigationItems";
 
 const toolbar = props => {
 
     const icon = (
         <span>
-                <img src={logo} height="45" width="45" alt="text here" className={classes.logo}/>
+                <img src={logo} height="45" width="45" alt="text here"/>
         </span>
     );
 

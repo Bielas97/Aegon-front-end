@@ -10,7 +10,7 @@ const initialState = {
     authRedirectPath: null
 };
 
-const authStart = (state, action) => {
+const authStart = (state) => {
     return updateObject(state,{
         error: null,
         loading: true
@@ -18,9 +18,14 @@ const authStart = (state, action) => {
 };
 
 const authSuccess = (state, action) => {
+    const token = action.token;
+    const jwtData = token.split('.')[1];
+    const decodedJwtJsonData = window.atob(jwtData);
+    const decodedJwtData = JSON.parse(decodedJwtJsonData);
+    const isAdmin = decodedJwtData.roles === "ROLE_ADMIN";
     return updateObject(state, {
-        token: action.token,
-        admin: action.role === 'ROLE_ADMIN',
+        token: token,
+        admin: isAdmin,
         loading: false
     })
 };
@@ -32,7 +37,7 @@ const authFail = (state, action) => {
     })
 };
 
-const authLogout = (state, action) => {
+const authLogout = (state) => {
     return updateObject(state, {
         token: null,
         loading: false
@@ -52,11 +57,11 @@ const authReducer = (state = initialState, action) => {
         case actions.AUTH_FAIL:
             return authFail(state, action);
         case actions.AUTH_START:
-            return authStart(state, action);
+            return authStart(state);
         case actions.AUTH_SET_REDIRECT_PATH:
             return setAuthRedirectPath(state, action);
         case actions.AUTH_LOGOUT:
-            return authLogout(state, action);
+            return authLogout(state);
         default:
             return state;
     }

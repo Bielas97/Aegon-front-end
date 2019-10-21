@@ -7,11 +7,10 @@ export const authStart = () => {
     }
 };
 
-export const authSuccess = (token, role) => {
+export const authSuccess = token => {
     return {
         type: actions.AUTH_SUCCESS,
-        token: token,
-        role: role
+        token: token
     }
 };
 
@@ -24,7 +23,6 @@ export const authFail = (error) => {
 
 export const logout = () => {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
     return {
         type: actions.AUTH_LOGOUT
     }
@@ -40,7 +38,7 @@ export const auth = (login, password) => {
         axios.post('/login', authData)
             .then(response => {
                 sessionStorage.setItem("token", response.data.token);
-                dispatch(authSuccess(response.data.token, response.data.role));
+                dispatch(authSuccess(response.data.token));
             })
             .catch(err => {
                 dispatch(authFail(err))
@@ -52,9 +50,9 @@ export const authCheckState = () => {
     return dispatch => {
         const token = sessionStorage.getItem("token");
         if (token) {
-            const jwtData = token.split('.')[1]
-            const decodedJwtJsonData = window.atob(jwtData)
-            const decodedJwtData = JSON.parse(decodedJwtJsonData)
+            const jwtData = token.split('.')[1];
+            const decodedJwtJsonData = window.atob(jwtData);
+            const decodedJwtData = JSON.parse(decodedJwtJsonData);
             if (decodedJwtData.roles) {
                 dispatch(authSuccess(token, decodedJwtData.roles))
             }
