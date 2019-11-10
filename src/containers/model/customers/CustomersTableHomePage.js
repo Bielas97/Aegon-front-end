@@ -13,7 +13,7 @@ class CustomersTableHomePage extends Component {
     }
 
     render() {
-        const sortedCustomers = this.props.customers.sort((c1, c2) => c1.modifedDate.localeCompare(c2.modifedDate));
+        const sortedCustomers = this.props.customers.sort((c1, c2) => c2.modifedDate.localeCompare(c1.modifedDate));
 
         const tbody = sortedCustomers.slice(0, 5).map(el => {
             const fullName = el.firstName.concat(" ").concat(el.lastName);
