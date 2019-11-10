@@ -205,6 +205,15 @@ class NewCustomer extends Component {
         return !this.state.C1FirstName.length || !this.state.C1LastName || this.state.C1KvAppearance <= 0 || this.state.chosenTables.length !== 1
     };
 
+    isOneMoreTicketInfoVisible = () => {
+        const token = sessionStorage.getItem("token");
+        const jwtData = token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        const isAdmin = decodedJwtData.roles === "ROLE_ADMIN";
+        return !isAdmin && this.state.showOneMoreTicketToSellInfo;
+    };
+
     render() {
         const C1Form = (
             <div className="form-group">
@@ -384,7 +393,7 @@ class NewCustomer extends Component {
                             <h2>You have <strong>no more</strong> tickets to sell </h2> :
                             <form onSubmit={event => this.onSubmitForm(event)}>
                                 {C1Form}
-                                {this.state.showOneMoreTicketToSellInfo ?
+                                {this.isOneMoreTicketInfoVisible() ?
                                     <h2>You have only <strong>one</strong> more ticket to sell </h2> :
                                     this.state.showTwoCustomersForm ? C2Form : null}
                                 <button
