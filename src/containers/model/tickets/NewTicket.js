@@ -222,8 +222,8 @@ class NewTicket extends Component {
                             </nav>
                         </li>
                     </ul>
+                    <br/>
                 </div>
-                <br/>
             </div>
         );
 

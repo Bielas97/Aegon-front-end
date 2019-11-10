@@ -110,6 +110,7 @@ export const registerUser = user => {
 };
 
 export const getUserInfo = () => {
+    console.log('[usersaction] start getting user info');
     return dispatch => {
         dispatch(userActionStart());
         const token = "Bearer ".concat(sessionStorage.getItem("token"));

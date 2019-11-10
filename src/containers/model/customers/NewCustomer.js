@@ -44,7 +44,8 @@ class NewCustomer extends Component {
             ...this.state,
             freeTablesForUser: this.props.freeTablesForUser.map(table => table.name),
             isAdmin: isAdmin
-        })
+        });
+        this.props.onFetchCurrentUser();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -64,9 +65,11 @@ class NewCustomer extends Component {
         }
         if (prevProps.msg !== this.props.msg || prevProps.timestamp !== this.props.timestamp) {
             NotificationManager.success(this.props.msg, this.props.timestamp);
+            this.props.onFetchCurrentUser();
         }
         if (this.props.error !== null && prevProps.error !== this.props.error) {
             if (this.props.error.data !== null) {
+                this.props.onFetchCurrentUser();
                 NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
             }
         }
@@ -200,7 +203,6 @@ class NewCustomer extends Component {
             };
             this.props.onAddCustomer(customerTwo)
         }
-        this.props.onFetchCurrentUser();
         this.clearState();
     };
 
