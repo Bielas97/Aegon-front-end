@@ -8,15 +8,14 @@ class CustomersTableHomePage extends Component {
         isMouseInside: false
     };
 
-
     componentDidMount() {
         this.props.onFetchCustomers()
     }
 
-
     render() {
+        const sortedCustomers = this.props.customers.sort((c1, c2) => c1.modifedDate.localeCompare(c2.modifedDate));
 
-        const tbody = this.props.customers.map(el => {
+        const tbody = sortedCustomers.slice(0, 5).map(el => {
             const fullName = el.firstName.concat(" ").concat(el.lastName);
             const index = el.index === true ? <span className="text-success fa fa-thumbs-o-up"/> :
                 <span className="text-danger fa fa-thumbs-o-down"/>;

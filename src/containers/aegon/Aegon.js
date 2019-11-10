@@ -34,13 +34,13 @@ class Aegon extends Component {
                 <div className="row">
                     <div className="col-6">
                         <div className="d-flex justify-content-center">
-                            <h4>Tables:</h4>
+                            <h4>Random free tables:</h4>
                         </div>
                         <KvTables dashboard/>
                     </div>
                     <div className="col-6">
                         <div className="d-flex justify-content-center">
-                            <h4>Customers:</h4>
+                            <h4>Last modified customers:</h4>
                         </div>
                         <CustomersTableHomePage/>
                     </div>
