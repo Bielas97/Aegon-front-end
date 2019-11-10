@@ -28,15 +28,22 @@ class NewCustomer extends Component {
         showSecondFloor: false,
 
         showTwoCustomersForm: false,
-        showOneMoreTicketToSellInfo: false
+        showOneMoreTicketToSellInfo: false,
+        isAdmin: false
     };
 
     componentDidMount() {
         const numberOfCustomers = this.state.showTwoCustomersForm ? 2 : 1;
         this.props.onFetchFreeTablesForUser(numberOfCustomers);
+        const token = sessionStorage.getItem("token");
+        const jwtData = token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        const isAdmin = decodedJwtData.roles === "ROLE_ADMIN";
         this.setState({
             ...this.state,
-            freeTablesForUser: this.props.freeTablesForUser.map(table => table.name)
+            freeTablesForUser: this.props.freeTablesForUser.map(table => table.name),
+            isAdmin: isAdmin
         })
     }
 
@@ -111,8 +118,8 @@ class NewCustomer extends Component {
             ...this.state,
             showTwoCustomersForm: true
         });
-        if (this.props.currentUserTicketsLeft < 2) {
-            this.switchToOneCustomer()
+        if (!this.state.isAdmin && this.props.currentUserTicketsLeft < 2) {
+            this.switchToOneCustomer();
             this.setState({
                 ...this.state,
                 showOneMoreTicketToSellInfo: true
@@ -203,6 +210,14 @@ class NewCustomer extends Component {
                 (!this.state.C2FirstName || !this.state.C2LastName || this.state.C2KvAppearance <= 0) || this.state.chosenTables.length !== 1
         }
         return !this.state.C1FirstName.length || !this.state.C1LastName || this.state.C1KvAppearance <= 0 || this.state.chosenTables.length !== 1
+    };
+
+    isOneMoreTicketInfoVisible = () => {
+        return !this.state.isAdmin && this.state.showOneMoreTicketToSellInfo;
+    };
+
+    isTicketsInfoVisible = () => {
+        return !this.state.isAdmin && this.props.currentUserTicketsLeft < 1
     };
 
     render() {
@@ -380,11 +395,11 @@ class NewCustomer extends Component {
                 <h3>New Customers:</h3>
                 <div className="row">
                     <div className="col-6">
-                        {this.props.currentUserTicketsLeft < 1 ?
+                        {this.isTicketsInfoVisible() ?
                             <h2>You have <strong>no more</strong> tickets to sell </h2> :
                             <form onSubmit={event => this.onSubmitForm(event)}>
                                 {C1Form}
-                                {this.state.showOneMoreTicketToSellInfo ?
+                                {this.isOneMoreTicketInfoVisible() ?
                                     <h2>You have only <strong>one</strong> more ticket to sell </h2> :
                                     this.state.showTwoCustomersForm ? C2Form : null}
                                 <button
