@@ -58,7 +58,7 @@ export const fetchCustomers = () => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(error => {
-                dispatch(customerActionFail(error));
+                dispatch(customerActionFail(error.response));
             })
     }
 };
@@ -76,7 +76,7 @@ export const addCustomer = customer => {
                 dispatch(addCustomerSuccess(response.data))
             })
             .catch(error => {
-                dispatch(customerActionFail(error))
+                dispatch(customerActionFail(error.response))
             })
     }
 };
@@ -94,7 +94,7 @@ export const updateCustomer = customer => {
                 dispatch(updateCustomerSuccess(response.data))
             })
             .catch(error => {
-                dispatch(customerActionFail(error))
+                dispatch(customerActionFail(error.response))
             })
     }
 };
@@ -113,7 +113,7 @@ export const deleteCustomer = id => {
                 dispatch(deleteCustomerSuccess(response.data))
             })
             .catch(error => {
-                dispatch(customerActionFail(error))
+                dispatch(customerActionFail(error.response))
             })
     }
 };

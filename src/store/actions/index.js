@@ -20,7 +20,8 @@ export {
     fetchUsers,
     deleteUserById,
     registerUser,
-    changePasswordForUser
+    changePasswordForUser,
+    getUserInfo
 } from './usersAction'
 export {
     fetchTickets,

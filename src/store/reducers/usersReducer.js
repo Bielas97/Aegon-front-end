@@ -6,7 +6,8 @@ const initialState = {
     loading: false,
     error: null,
     message: null,
-    timestamp: null
+    timestamp: null,
+    currentUserTicketsLeft: null
 };
 
 const userActionStart = (state, action) => {
@@ -19,6 +20,17 @@ const userActionStart = (state, action) => {
 const fetchUsersSuccess = (state, action) => {
     return updateObject(state, {
         users: action.users,
+        loading: false
+    })
+};
+
+const getUserInfoSuccess = (state, action) => {
+    // const user = {
+    //     username: action.username,
+    //     ticketsLeft: action.ticketsLeft
+    // };
+    return updateObject(state, {
+        currentUserTicketsLeft: action.ticketsLeft,
         loading: false
     })
 };
@@ -68,6 +80,8 @@ const usersReducer = (state = initialState, action) => {
             return deleteUserSuccess(state, action);
         case actions.CHANGE_PASSWORD_FOR_USER:
             return changePasswordForUser(state, action);
+        case actions.GET_USER_INFO:
+            return getUserInfoSuccess(state, action);
         default:
             return state;
     }

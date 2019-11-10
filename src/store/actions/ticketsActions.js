@@ -58,7 +58,7 @@ export const fetchTickets = () => {
                 dispatch(fetchSuccess(response.data))
             })
             .catch(err => {
-                dispatch(ticketActionFail(err))
+                dispatch(ticketActionFail(err.response))
             })
     }
 };

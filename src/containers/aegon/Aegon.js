@@ -13,6 +13,7 @@ class Aegon extends Component {
             this.props.onFetchTickets();
             this.props.onFetchUsers();
         }
+        this.props.onFetchCurrentUser();
         this.props.onFetchFreeTablesForUser(1);
         this.props.onFetchFreePlaces();
         this.props.onFetchCustomers();
@@ -28,6 +29,7 @@ class Aegon extends Component {
                     tickets={this.props.noTickets}
                     users={this.props.noUsers}
                     freePlaces={this.props.noFreePlaces}
+                    ticketsLeft={this.props.currentUserTicketsLeft}
                 />
                 <div className="row">
                     <div className="col-6">
@@ -56,7 +58,8 @@ const mapStateToProps = state => {
         noTickets: state.tickets.tickets.length,
         noUsers: state.users.users.length,
         noFreePlaces: state.tables.freePlaces,
-        customers: state.customers.customers
+        customers: state.customers.customers,
+        currentUserTicketsLeft: state.users.currentUserTicketsLeft
     }
 };
 
@@ -66,7 +69,8 @@ const mapDispatchToProps = dispatch => {
         onFetchTickets: () => dispatch(actions.fetchTickets()),
         onFetchUsers: () => dispatch(actions.fetchUsers()),
         onFetchFreePlaces: () => dispatch(actions.fetchFreePlaces()),
-        onFetchCustomers: () => dispatch(actions.fetchCustomers())
+        onFetchCustomers: () => dispatch(actions.fetchCustomers()),
+        onFetchCurrentUser: () => dispatch(actions.getUserInfo())
     }
 };
 

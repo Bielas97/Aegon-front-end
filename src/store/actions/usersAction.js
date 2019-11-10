@@ -45,6 +45,14 @@ const changePasswordForUserSuccess = action => {
     }
 };
 
+const getUserInfoSuccess = action => {
+    return {
+        type: actions.GET_USER_INFO,
+        username: action.username,
+        ticketsLeft: action.numberOfTickets
+    }
+};
+
 export const fetchUsers = () => {
     return dispatch => {
         dispatch(userActionStart());
@@ -89,12 +97,29 @@ export const registerUser = user => {
         const token = "Bearer ".concat(sessionStorage.getItem("token"));
         axios.post("/users", user, {
             headers: {
-                "Authorization": token,
-                "Access-Control-Allow-Origin": "*"
+                "Authorization": token
             }
         })
             .then(response => {
                 dispatch(registerUserSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(userActionFail(error.response));
+            })
+    }
+};
+
+export const getUserInfo = () => {
+    return dispatch => {
+        dispatch(userActionStart());
+        const token = "Bearer ".concat(sessionStorage.getItem("token"));
+        axios.get("/users/info", {
+            headers: {
+                "Authorization": token
+            }
+        })
+            .then(response => {
+                dispatch(getUserInfoSuccess(response.data))
             })
             .catch(error => {
                 dispatch(userActionFail(error.response));
@@ -118,4 +143,4 @@ export const changePasswordForUser = userPasswordChangeDto => {
                 dispatch(userActionFail(error.response))
             })
     }
-}
+};

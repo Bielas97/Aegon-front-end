@@ -55,7 +55,7 @@ export const fetchTables = () => {
                 dispatch(fetchAllTablesSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(fetchFail(error.response));
             })
     }
 };
@@ -74,7 +74,7 @@ export const fetchFreeTablesForUser = numberOfPeopleRequestingFreePlaces => {
                 dispatch(fetchFreeTablesForUserSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(fetchFail(error.response));
             })
     }
 };
@@ -93,7 +93,7 @@ export const fetchFreePlaces = () => {
                 dispatch(fetchFreePlacesSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error));
+                dispatch(fetchFail(error.response));
             })
     }
 };
@@ -111,7 +111,7 @@ export const fetchTablesWithoutTicket = () => {
                 dispatch(fetchTablesWithoutTicketSuccess(response.data))
             })
             .catch(error => {
-                dispatch(fetchFail(error))
+                dispatch(fetchFail(error.response))
             })
     }
 };

@@ -77,6 +77,7 @@ class Users extends Component {
 
     deleteUserById = id => {
         this.props.onDeleteUser(id);
+        this.props.onFetchCurrentUser();
         if (this.state.user !== null && id === this.state.user.id) {
             this.setState({...this.state, user: null});
         }
@@ -98,9 +99,6 @@ class Users extends Component {
         }
     };
 
-    checkState = () => {
-        console.log(this.state)
-    };
 
     render() {
         const tbody = this.props.users.map(el => {
@@ -245,7 +243,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchUsers: () => dispatch(actions.fetchUsers()),
         onDeleteUser: id => dispatch(actions.deleteUserById(id)),
-        onChangePasswordForUser: userPasswordChangeDto => dispatch(actions.changePasswordForUser(userPasswordChangeDto))
+        onChangePasswordForUser: userPasswordChangeDto => dispatch(actions.changePasswordForUser(userPasswordChangeDto)),
+        onFetchCurrentUser: () => dispatch(actions.getUserInfo())
     }
 };
 

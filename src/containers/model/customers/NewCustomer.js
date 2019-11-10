@@ -27,7 +27,8 @@ class NewCustomer extends Component {
         showFirstFloor: false,
         showSecondFloor: false,
 
-        showTwoCustomersForm: false
+        showTwoCustomersForm: false,
+        showOneMoreTicketToSellInfo: false
     };
 
     componentDidMount() {
@@ -109,7 +110,14 @@ class NewCustomer extends Component {
         this.setState({
             ...this.state,
             showTwoCustomersForm: true
-        })
+        });
+        if (this.props.currentUserTicketsLeft < 2) {
+            this.switchToOneCustomer()
+            this.setState({
+                ...this.state,
+                showOneMoreTicketToSellInfo: true
+            })
+        }
     };
 
     switchToGroundFloor = () => {
@@ -156,7 +164,8 @@ class NewCustomer extends Component {
             showFirstFloor: false,
             showSecondFloor: false,
 
-            showTwoCustomersForm: false
+            showTwoCustomersForm: false,
+            showOneMoreTicketToSellInfo: false
         })
     };
 
@@ -172,7 +181,7 @@ class NewCustomer extends Component {
             }
         };
         this.props.onAddCustomer(customerOne);
-        if(this.state.showTwoCustomersForm) {
+        if (this.state.showTwoCustomersForm) {
             const customerTwo = {
                 firstName: this.state.C2FirstName,
                 lastName: this.state.C2LastName,
@@ -184,6 +193,7 @@ class NewCustomer extends Component {
             };
             this.props.onAddCustomer(customerTwo)
         }
+        this.props.onFetchCurrentUser();
         this.clearState();
     };
 
@@ -247,58 +257,61 @@ class NewCustomer extends Component {
                 </div>
                 <label>Table:</label>
                 <h6>{this.state.chosenTables.join(",")}</h6>
-                {this.state.chosenTables.length > 1 ? <small className="text-danger">Choose only one table!</small> : null}
+                {this.state.chosenTables.length > 1 ?
+                    <small className="text-danger">Choose only one table!</small> : null}
             </div>
         );
 
         const C2Form = (
-            <div className="form-group">
-                <h4>Second Customer:</h4>
-                <label htmlFor="C2FirstName">First Name:</label>
-                <input type="text"
-                       name="C2FirstName"
-                       id="C2FirstName"
-                       className="form-control"
-                       onChange={this.inputChangeHandler}
-                       value={this.state.C2FirstName}
-                />
-                <label htmlFor="C2LastName">Last Name:</label>
-                <input type="text"
-                       name="C2LastName"
-                       id="C2LastName"
-                       className="form-control"
-                       onChange={this.inputChangeHandler}
-                       value={this.state.C2LastName}
-                />
-                <label htmlFor="C2KvAppearance">Kv Appearance:</label>
-                <input type="number"
-                       name="C2KvAppearance"
-                       id="C2KvAppearance"
-                       className="form-control"
-                       onChange={this.inputChangeHandler}
-                       value={this.state.C2KvAppearance}
-                />
-                <label htmlFor="C2IsStudent">Is Student:</label>
-                <div className="row offset-1">
-                    <div className="radio">
-                        <label>
-                            <input
-                                type="radio"
-                                name="C2IsStudent"
-                                value={true}
-                                checked={this.state.C2IsStudent}
-                                onChange={this.boolInputHandler}/><span
-                            className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input
-                                type="radio"
-                                name="C2IsStudent"
-                                value={false}
-                                checked={!this.state.C2IsStudent}
-                                onChange={this.boolInputHandler}/><span
-                            className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
+            <div>
+                <div className="form-group">
+                    <h4>Second Customer:</h4>
+                    <label htmlFor="C2FirstName">First Name:</label>
+                    <input type="text"
+                           name="C2FirstName"
+                           id="C2FirstName"
+                           className="form-control"
+                           onChange={this.inputChangeHandler}
+                           value={this.state.C2FirstName}
+                    />
+                    <label htmlFor="C2LastName">Last Name:</label>
+                    <input type="text"
+                           name="C2LastName"
+                           id="C2LastName"
+                           className="form-control"
+                           onChange={this.inputChangeHandler}
+                           value={this.state.C2LastName}
+                    />
+                    <label htmlFor="C2KvAppearance">Kv Appearance:</label>
+                    <input type="number"
+                           name="C2KvAppearance"
+                           id="C2KvAppearance"
+                           className="form-control"
+                           onChange={this.inputChangeHandler}
+                           value={this.state.C2KvAppearance}
+                    />
+                    <label htmlFor="C2IsStudent">Is Student:</label>
+                    <div className="row offset-1">
+                        <div className="radio">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="C2IsStudent"
+                                    value={true}
+                                    checked={this.state.C2IsStudent}
+                                    onChange={this.boolInputHandler}/><span
+                                className="text-success fa fa-thumbs-o-up ml-2 mr-3"/></label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="C2IsStudent"
+                                    value={false}
+                                    checked={!this.state.C2IsStudent}
+                                    onChange={this.boolInputHandler}/><span
+                                className="text-danger fa fa-thumbs-o-down ml-2 mr-3"/></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -367,15 +380,20 @@ class NewCustomer extends Component {
                 <h3>New Customers:</h3>
                 <div className="row">
                     <div className="col-6">
-                        <form onSubmit={event => this.onSubmitForm(event)}>
-                            {C1Form}
-                            {this.state.showTwoCustomersForm ? C2Form : null}
-                            <button
-                                className="btn btn-outline-success submitButton"
-                                type="submit"
-                                disabled={this.isSubmitDisabled()}>Submit
-                            </button>
-                        </form>
+                        {this.props.currentUserTicketsLeft < 1 ?
+                            <h2>You have <strong>no more</strong> tickets to sell </h2> :
+                            <form onSubmit={event => this.onSubmitForm(event)}>
+                                {C1Form}
+                                {this.state.showOneMoreTicketToSellInfo ?
+                                    <h2>You have only <strong>one</strong> more ticket to sell </h2> :
+                                    this.state.showTwoCustomersForm ? C2Form : null}
+                                <button
+                                    className="btn btn-outline-success submitButton"
+                                    type="submit"
+                                    disabled={this.isSubmitDisabled()}>Submit
+                                </button>
+                            </form>
+                        }
                     </div>
                     <div className="col-6">
                         {map}
@@ -387,7 +405,7 @@ class NewCustomer extends Component {
                 <br/>
             </div>
         );
-        if(this.props.loading){
+        if (this.props.loading) {
             newCustomerComponent = (
                 <Backdrop show>
                     <Spinner/>
@@ -408,14 +426,17 @@ const mapStateToProps = state => {
         freeTablesForUser: state.tables.freeTablesForUser,
         msg: state.customers.message,
         timestamp: state.customers.timestamp,
-        loading: state.customers.loading
+        loading: state.customers.loading,
+        error: state.customers.error,
+        currentUserTicketsLeft: state.users.currentUserTicketsLeft
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchFreeTablesForUser: numberOfPeopleRequestingFreePlaces => dispatch(actions.fetchFreeTablesForUser(numberOfPeopleRequestingFreePlaces)),
-        onAddCustomer: customer => dispatch(actions.addCustomer(customer))
+        onAddCustomer: customer => dispatch(actions.addCustomer(customer)),
+        onFetchCurrentUser: () => dispatch(actions.getUserInfo())
     }
 };
 
