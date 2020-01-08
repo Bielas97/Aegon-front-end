@@ -68,9 +68,11 @@ class NewCustomer extends Component {
             this.props.onFetchCurrentUser();
         }
         if (this.props.error !== null && prevProps.error !== this.props.error) {
-            if (this.props.error.data !== null) {
-                this.props.onFetchCurrentUser();
-                NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+            if (this.props.error) {
+                if (this.props.error.data) {
+                    this.props.onFetchCurrentUser();
+                    NotificationManager.error(this.props.error.data.message, this.props.error.data.error);
+                }
             }
         }
     }

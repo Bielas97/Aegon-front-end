@@ -7,7 +7,7 @@ const instance = axios.create({
     // baseURL: 'https://localhost:8181/api/',
     // ------------------------- LOCAL HTTP -------------------------
     // baseURL: 'http://localhost:8181/api/',
-    timeout: 6000
+    timeout: 20000
 });
 
 export default instance;

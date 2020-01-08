@@ -55,9 +55,11 @@ export const fetchCustomers = () => {
             }
         })
             .then(response => {
+                console.log(response);
                 dispatch(fetchSuccess(response.data))
             })
             .catch(error => {
+                console.log(error);
                 dispatch(customerActionFail(error.response));
             })
     }
